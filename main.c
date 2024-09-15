@@ -85,10 +85,9 @@ int main (void) {
 	error = matrizNxN_verificar(Test_A, Test_B, Test_C, Test_D, Resultado_E);
 	
 	while(1); //no hay S.O., no se retorna
-	while(1);
+	
 }
 
 /**
- * 
  *@}
  **/
