@@ -3,7 +3,7 @@
 
 #include "matriz_3x3.h"
 
-    // Inicialización de matrices usando el tipo de datos Matriz3x3
+    // Inicializaciï¿½n de matrices usando el tipo de datos Matriz3x3
 static int Test_A[N][N] = {
 		{1, 0, 0},
 		{0, 1, 0},
@@ -18,12 +18,12 @@ static int Test_B[N][N] = {
 
 		
 /* *****************************************************************************
- * declaración funciones internas 
+ * declaraciï¿½n funciones internas 
  */
 		
 // funcion que ejecuta las distintas versiones de la implementacion en C, ARM y Thumb y verifica que dan el mismo resultado.
 // recibe las matrices con las que operar
-// devuelve si todas las versiones coinciden en el numero de terminos_no_cero o no y el resultado de la opoeración.
+// devuelve si todas las versiones coinciden en el numero de terminos_no_cero o no y el resultado de la opoeraciï¿½n.
 uint8_t matrizNxN_verificar(int A[N][N], int B[N][N], int C[N][N], int D[N][N], int Resultado[N][N]);
 
 //TODO ???	
@@ -88,5 +88,6 @@ int main (void) {
 }
 
 /**
+ * --------------------------------------------
  *@}
  **/
