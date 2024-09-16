@@ -4,7 +4,7 @@
 
 #include <inttypes.h>
 
-//el codigo en C debe ser independiente del tamaño de las matrices usando la definicion de "N"
+//el codigo en C debe ser independiente del tamaï¿½o de las matrices usando la definicion de "N"
 //las versiones en ensamblador hacerlas para matrices de 3x3
 #define N 3
 
@@ -13,9 +13,10 @@
  */
 
 void matrizNxN_multiplicar_C(int A[N][N], int B[N][N], int Resultado[N][N]);
-
+void matrizNxN_sumar(int A[N][N], int B[N][N], int Resultado[N][N]);
+void matrizNxN_transponer(int A[N][N],int Traspuesta[N][N]);
 uint8_t matrizNxN_operar_C(int A[N][N], int B[N][N], int C[N][N], int D[N][N], int Resultado[N][N]);
-
+void pintar(int Resultado_E[N][N]);
 //TODO
 #if 0
 // funciones a implementar en ARM y thumb para matrices de 3x3
