@@ -37,6 +37,7 @@ uint8_t matrizNxN_verificar(int A[N][N], int B[N][N], int C[N][N], int D[N][N], 
 		
 void matrizNxN_multiplicar_C(int A[N][N], int B[N][N], int Resultado[N][N]){
 //TODO
+	while(true);
 }
 
 //funcion que calcula Resultado = A*B + transpuesta(C*D) y devuelva el numero de terminos distintos de cero en el Resultado
