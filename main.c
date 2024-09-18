@@ -2,7 +2,7 @@
 // version 0.1
 
 #include "matriz_3x3.h"
-#include <stdio.h>
+
 
     // Inicializaci�n de matrices usando el tipo de datos Matriz3x3
 static int Test_A[N][N] = {
@@ -80,15 +80,7 @@ void matrizNxN_multiplicar_C(int A[N][N], int B[N][N], int Resultado[N][N]){
 		}
 	}
 
-void pintar(int Resultado_E[N][N]){
-	for(int i = 0; i<N;i++){
-		for(int j = 0; j<N; j++){
-			printf(" [%d] ",Resultado_E[i][j]);
-		}
-		printf("\n");
-	}
-	printf("----------------\n");
-}
+
 //funcion que calcula Resultado = A*B + transpuesta(C*D) y devuelva el numero de terminos distintos de cero en el Resultado
 //ayudandose de funcion matrizNxN_multiplicar_C que calcula A*B de NxN
 uint8_t matrizNxN_operar_C(int A[N][N], int B[N][N], int C[N][N], int D[N][N], int Resultado[N][N]){
@@ -152,11 +144,11 @@ int main (void) {
 
 	
 	matrizNxN_operar_C(Test_A,Test_B,Test_C,Test_D,Resultado_E);
-	pintar(Resultado_E);
-	return 0;
+	
+
 	error = matrizNxN_verificar(Test_A, Test_B, Test_C, Test_D, Resultado_E);
 	
-	while(1); //no hay S.O., no se retorna
+	while(1);
 	
 }
 

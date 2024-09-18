@@ -352,7 +352,7 @@
           <Cads>
             <interw>1</interw>
             <Optim>1</Optim>
-            <oTime>0</oTime>
+            <oTime>1</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
             <Strict>0</Strict>
@@ -427,9 +427,9 @@
               <FilePath>.\Startup.s</FilePath>
             </File>
             <File>
-              <FileName>prueba.s</FileName>
+              <FileName>operar.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\prueba.s</FilePath>
+              <FilePath>.\operar.s</FilePath>
             </File>
           </Files>
         </Group>
