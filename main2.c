@@ -1,7 +1,7 @@
 // fuentes Proyecto Hardware 2024
 // version 0.1
 
-#include "matriz_3x3.h"
+#include "matriz_3x32.h"
 #include <stdio.h>
 
 
@@ -172,6 +172,9 @@ int main (void) {
 
 	
 	matrizNxN_operar_C(Test_A,Test_B,Test_C,Test_D,Resultado_E);
+	print_matrix(Resultado_E);
+
+	matrizNxN_sumar(Test_A,Test_B,Resultado_E);
 	print_matrix(Resultado_E);
 	
 	return(0);

@@ -1,81 +1,86 @@
-//operar 
-//    STMDB     R13!,{R4-R9,R14}//apila regitros (mas abajo)14 y 9-4
-//    SUB       R13,R13,#0x0000006C//r13 = r13 - 108
-//    MOV       R8,R0
-//    MOV       R9,R1
-//    MOV       R4,R2
-//    MOV       R5,R3
-//    LDR       R6,[R13,#0x0088]	
-/*
-    31: void matrizNxN_transponer(int A[N][N],int Traspuesta[N][N]){ 
-0x00000438  E52D4004  STR       R4,[R13,#-0x0004]!
-0x0000043C  E1A03000  MOV       R3,R0
-0x00000440  E1A02001  MOV       R2,R1
-    32:         for(int fila = 0; fila < N; fila++){ 
-0x00000444  E3A00000  MOV       R0,#0x00000000
-0x00000448  EA00000B  B         0x0000047C
-    33:                 for(int columna = 0; columna < N; columna++){ 
-    34:  
-0x0000044C  E3A01000  MOV       R1,#0x00000000
-0x00000450  EA000006  B         0x00000470
-    35:                         Traspuesta[columna][fila] = A[fila][columna]; 
-    36:                          
-    37:                 } 
-    38:         } 
-    39:  
-0x00000454  E080C080  ADD       R12,R0,R0,LSL #1
-0x00000458  E083C10C  ADD       R12,R3,R12,LSL #2
-0x0000045C  E79CC101  LDR       R12,[R12,R1,LSL #2]
-0x00000460  E0814081  ADD       R4,R1,R1,LSL #1
-0x00000464  E0824104  ADD       R4,R2,R4,LSL #2
-0x00000468  E784C100  STR       R12,[R4,R0,LSL #2]
-0x0000046C  E2811001  ADD       R1,R1,#0x00000001
-0x00000470  E3510003  CMP       R1,#0x00000003
-0x00000474  BAFFFFF6  BLT       0x00000454
-    32:         for(int fila = 0; fila < N; fila++){ 
-    33:                 for(int columna = 0; columna < N; columna++){ 
-    34:  
-    35:                         Traspuesta[columna][fila] = A[fila][columna]; 
-    36:                          
-    37:                 } 
-    38:         } 
-    39:  
-0x00000478  E2800001  ADD       R0,R0,#0x00000001
-0x0000047C  E3500003  CMP       R0,#0x00000003
-0x00000480  BAFFFFF1  BLT       0x0000044C
-    40: } 
 
+	AREA datos, DATA
+	
+N 			EQU 3
+Tamanio		EQU N*N
+Test_A 		DCD 1,0,0,0,1,0,0,0,1
+Test_B 		DCD 9,8,7,6,5,4,3,2,1
+Resultado 	SPACE N*N 
 
-
-*/
-AREA data, DATA
-	Test_A DCB 1,0,0,0,1,0,0,0,1
-	Test_B DCB 9,8,7,6,5,4,3,2,1
 	
 
-AREA codigo,CODE
-	IMPORT matrizNxN_multiplicar_C 
+	AREA codigo,CODE
+	EXPORT inicio
+inicio
+	;IMPORT matrizNxN_multiplicar_C 
 
-	LDR r0, =Test_A 
-	LDR r1,	=Test_B
-	
-	STMDB     R13!,{R4-R9,R14}
-	
+			LDR r0,=Test_A 
+			LDR r1,=Test_B
+			LDR r2,=Resultado
+			LDR r3,=Tamanio
+			
+			bl sumar
+
 bfin 		b bfin
-												// |Variables locales
-sumar											// |registros de r4-rx
-			MOV r12, r15						// |FP(r11)
-			STMDB r13!, {r4- ,r11,r12,r14,r15}	// |SP(r13)
-			SUB r11, r12, #4					// |LR(r14)
-			SUB r13, #SpaceForLocalVaribles		// |PC(r15) 
-			//r0-r3 = matrices?
-			//
+												; |Variables locales
+sumar											; |registros de r4-rx
+												; |FP(r11)
+			MOV IP, SP
+			STMDB SP!, {r4-r10,FP,IP,LR,PC}
+			SUB FP, IP, #4
+												; |LR(r14)
+												; |PC(r15) 
+			;r0-r1= Test_a-Test_b
+            mov r4,r0 ; r4 = @Test_a
+			mov r5,r1 ; r5 = @Test_b
+			mov r6,r2 ; r6 = @resultados
+			mov r7,r3 ; r7 = n*n
+	
+	
+bucle		subs r7,r7,#1
+			bmi fin_bucle
+			ldr r8,[r4,r7,LSL #2]
+			ldr r9,[r5,r7,LSL #2]
+			add r9,r9,r8
+			str r9,[r6,r7,LSL #2]
+			b bucle
+fin_bucle
 			
+			LDMDB FP, {r4-r10,FP,SP,PC}		;epilogo
 			
-			LDMDB r11, {r4- ,r11,r13,r15}			//epilogo
-			
+
 
 trasponer
+			mov r4,#0                ; r4 = i
+			ldr r5,=N
+			
+bucle_i
+			cmp r4,r5           ; i < N?
+			bge end
+			mov r6,#0           ; r6 = j
+
+bucle_j
+			;prologo
+			cmp r6,r5           ; j < N?
+			bge sig_i
+			;ldr r0,=matriz
+			mul r7,r4,r5        ; r7 = iN
+			add r7,r7,r6        ; r7 = iN+j
+			LSL r7,r7,#2        ; r7 = (iN+j)4
+			ldr r1,[r0,r7]      ; r1 = matriz[i][j]
+			;ldr r2,=transpuesta
+			mul r8,r6,r4        ; r8 = jN
+			add r8,r8,r5        ; r8 = jN+i
+			LSL r8,r8,#2        ; r8 = (jN+i)4
+			str r1,[r2,r8]      ; transpuesta[j][i] = matriz [i][j]
+			add r6,r6,#1        ; j++
+			b bucle_j
+
+sig_i
+			add r4,r4,#1        ; i++
+			b bucle_i
+
+end  		;epilogo
 
 
-END
+	END

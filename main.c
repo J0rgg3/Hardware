@@ -127,6 +127,7 @@ uint8_t matrizNxN_verificar(int A[N][N], int B[N][N], int C[N][N], int D[N][N], 
 
 // MAIN 
 int main (void) {
+	inicio();
 	int Resultado_E[N][N];
 	int error;
 

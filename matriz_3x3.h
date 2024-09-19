@@ -11,7 +11,7 @@
 /* *****************************************************************************
  * declaracion de funciones visibles en el exterior
  */
-
+extern void inicio();
 void matrizNxN_multiplicar_C(int A[N][N], int B[N][N], int Resultado[N][N]);
 void matrizNxN_sumar(int A[N][N], int B[N][N], int Resultado[N][N]);
 void matrizNxN_transponer(int A[N][N],int Traspuesta[N][N]);
