@@ -3,6 +3,7 @@
 
 #include "matriz_3x3.h"
 
+
     // Inicializaci�n de matrices usando el tipo de datos Matriz3x3
 static int Test_A[N][N] = {
 		{1, 0, 0},
@@ -27,8 +28,27 @@ static int Test_B[N][N] = {
 uint8_t matrizNxN_verificar(int A[N][N], int B[N][N], int C[N][N], int D[N][N], int Resultado[N][N]);
 
 //TODO ???	
-//??? void matrizNxN_transponer ???
-//??? void matrizNxN_sumar ???		
+void matrizNxN_transponer(int A[N][N],int Traspuesta[N][N]){
+	for(int fila = 0; fila < N; fila++){
+		for(int columna = 0; columna < N; columna++){
+
+			Traspuesta[columna][fila] = A[fila][columna];
+			
+		}
+	}
+
+}
+ void matrizNxN_sumar(int A[N][N], int B[N][N], int Resultado[N][N]){
+	for (int i = 0; i <N ; i++){
+		for (int j = 0; j < N; j++)
+		{
+			Resultado[i][j] = A[i][j] + B[i][j];
+		}
+		
+	}
+	
+
+ }		
 		
 
 /* *****************************************************************************
@@ -36,17 +56,55 @@ uint8_t matrizNxN_verificar(int A[N][N], int B[N][N], int C[N][N], int D[N][N], 
  */
 		
 void matrizNxN_multiplicar_C(int A[N][N], int B[N][N], int Resultado[N][N]){
-//TODO
-}
+
+	//A * B y devuelve Resultado
+	//aijxbji
+	int suma,fila = 0,columna = 0;
+	while(fila < 3){
+		
+		suma = 0;
+		for(int j = 0; j < N; j++){
+			
+			suma += A[fila][j] * B[j][columna];
+			//printf("A[%d][%d] %d B[%d][%d] %d \n",fila,j,A[fila][j],j,columna,B[j][columna]);
+		}
+		//printf("[%d][%d] %d \n---------------------------\n",fila,columna,suma);
+		Resultado[fila][columna] = suma;
+
+		if(columna == 2){
+			columna = 0;
+			fila++;
+		}else{ 
+			columna++;
+		}
+		}
+	}
+
 
 //funcion que calcula Resultado = A*B + transpuesta(C*D) y devuelva el numero de terminos distintos de cero en el Resultado
 //ayudandose de funcion matrizNxN_multiplicar_C que calcula A*B de NxN
 uint8_t matrizNxN_operar_C(int A[N][N], int B[N][N], int C[N][N], int D[N][N], int Resultado[N][N]){
 	uint8_t terminos_no_cero;
+	int AB[N][N],CD[N][N],Traspuesta[N][N];
+	matrizNxN_multiplicar_C(A, B, AB);//AB = A*B
+
+	matrizNxN_multiplicar_C(C, D, CD);//CD = C*D
 	
-	matrizNxN_multiplicar_C(A, B, Resultado);
-	//TODO
-	//....
+	matrizNxN_transponer(CD,Traspuesta);//Traspuesta = (T)CD
+	
+	matrizNxN_sumar(AB,Traspuesta,Resultado);//Resultado = AB + CD
+
+	for (int i = 0; i < N; i++)
+	{
+		for(int j = 0; j < N; j++)
+		{
+			if(Resultado[i][j] != 0){
+				terminos_no_cero++;
+			}
+		}
+		
+	}
+	
 	return terminos_no_cero;
 }
 		
@@ -65,8 +123,11 @@ uint8_t matrizNxN_verificar(int A[N][N], int B[N][N], int C[N][N], int D[N][N], 
 	return resultado;
 }
 
+
+
 // MAIN 
 int main (void) {
+	inicio();
 	int Resultado_E[N][N];
 	int error;
 
@@ -81,10 +142,14 @@ int main (void) {
 		{1, 2, 0},
 		{0, 0, 2}
 	};
-		
+
+	
+	matrizNxN_operar_C(Test_A,Test_B,Test_C,Test_D,Resultado_E);
+	
+
 	error = matrizNxN_verificar(Test_A, Test_B, Test_C, Test_D, Resultado_E);
 	
-	while(1); //no hay S.O., no se retorna
+	while(1);
 	
 }
 
