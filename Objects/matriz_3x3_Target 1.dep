@@ -1,8 +1,9 @@
 Dependencies for Project 'matriz_3x3', Target 'Target 1': (DO NOT MODIFY !)
-F (.\Startup.s)(0x66E848EF)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips--pd "__UVISION_VERSION SETA 526"--list .\listings\startup.lst --xref -o .\objects\startup.o --depend .\objects\startup.d)
-F (.\operar.s)(0x66EC69FB)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips--pd "__UVISION_VERSION SETA 526"--list .\listings\operar.lst --xref -o .\objects\operar.o --depend .\objects\operar.d)
-F (.\main.c)(0x66EC6395)(--c99 --gnu -c --cpu ARM7TDMI -D__EVAL -g -O0 -Otime --apcs=interwork --split_sections-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips-D__UVISION_VERSION="526"-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
-I (matriz_3x3.h)(0x66EC4FE9)
+F (.\Startup.s)(0x66E73BF3)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips--pd "__UVISION_VERSION SETA 526"--list .\listings\startup.lst --xref -o .\objects\startup.o --depend .\objects\startup.d)
+F (.\operar.s)(0x66EDF0EA)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips--pd "__UVISION_VERSION SETA 526"--list .\listings\operar.lst --xref -o .\objects\operar.o --depend .\objects\operar.d)
+F (.\main.c)(0x66EDF650)(--c99 --gnu -c --cpu ARM7TDMI -D__EVAL -g -O0 -Otime --apcs=interwork --split_sections-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\Philips-D__UVISION_VERSION="526"-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (matriz_3x3.h)(0x66EDF776)
 I (C:\Keil_v5\ARM\ARMCC\include\inttypes.h)(0x599F2F9E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599F2F9E)
-F (.\matriz_3x3.h)(0x66EC4FE9)()
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599F2F9C)
+F (.\matriz_3x3.h)(0x66EDF776)()

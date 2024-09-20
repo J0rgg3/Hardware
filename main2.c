@@ -52,30 +52,9 @@ void print_matrix(int matrix[N][N]) {
     // Add a newline at the end of the entire output
     printf("\n");
 }
-//TODO ???	
-void matrizNxN_transponer(int A[N][N],int Traspuesta[N][N]){
-	for(int fila = 0; fila < N; fila++){
-		for(int columna = 0; columna < N; columna++){
 
-			Traspuesta[columna][fila] = A[fila][columna];
-			
-		}
-	}
 
-}
- void matrizNxN_sumar(int A[N][N], int B[N][N], int Resultado[N][N]){
-	for (int i = 0; i <N ; i++){
-		for (int j = 0; j < N; j++)
-		{
-			Resultado[i][j] = A[i][j] + B[i][j];
-		}
-		
-	}
-	
-
- }		
-		
-
+ 
 /* *****************************************************************************
  * IMPLEMENTACIONES 
  */
@@ -84,16 +63,16 @@ void matrizNxN_multiplicar_C(int A[N][N], int B[N][N], int Resultado[N][N]){
 
 	//A * B y devuelve Resultado
 	//aijxbji
-	int suma,fila = 0,columna = 0;
+	/*int suma,fila = 0,columna = 0;
 	while(fila < 3){
 		
 		suma = 0;
 		for(int j = 0; j < N; j++){
 			
 			suma += A[fila][j] * B[j][columna];
-			//printf("A[%d][%d] %d B[%d][%d] %d \n",fila,j,A[fila][j],j,columna,B[j][columna]);
+			
 		}
-		//printf("[%d][%d] %d \n---------------------------\n",fila,columna,suma);
+		
 		Resultado[fila][columna] = suma;
 
 		if(columna == 2){
@@ -103,6 +82,16 @@ void matrizNxN_multiplicar_C(int A[N][N], int B[N][N], int Resultado[N][N]){
 			columna++;
 		}
 		}
+		*/
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+			Resultado[i][j] = 0;
+            for (int k = 0; k < N; k++) {
+                Resultado[i][j] += A[i][k] * B[k][j];
+            }
+
+        }
+    }
 	}
 
 
@@ -117,11 +106,23 @@ uint8_t matrizNxN_operar_C(int A[N][N], int B[N][N], int C[N][N], int D[N][N], i
 	matrizNxN_multiplicar_C(C, D, CD);//CD = C*D
 	print_matrix(CD);
 	
-	matrizNxN_transponer(CD,Traspuesta);//Traspuesta = (T)CD
+	for(int fila = 0; fila < N; fila++){
+		for(int columna = 0; columna < N; columna++){
+
+			Traspuesta[columna][fila] = CD[fila][columna];
+			
+		}
+	}
 	
 	print_matrix(Traspuesta);
 	
-	matrizNxN_sumar(AB,Traspuesta,Resultado);//Resultado = AB + CD
+	for (int i = 0; i <N ; i++){
+		for (int j = 0; j < N; j++)
+		{
+			Resultado[i][j] = AB[i][j] + Traspuesta[i][j];
+		}
+			
+	}
 
 	for (int i = 0; i < N; i++)
 	{
@@ -171,11 +172,11 @@ int main (void) {
 	};
 
 	
-	matrizNxN_operar_C(Test_A,Test_B,Test_C,Test_D,Resultado_E);
+	uint8_t j = matrizNxN_operar_C(Test_A,Test_B,Test_C,Test_D,Resultado_E);
 	print_matrix(Resultado_E);
+	
+	printf("j = %d\n",(int) j );
 
-	matrizNxN_sumar(Test_A,Test_B,Resultado_E);
-	print_matrix(Resultado_E);
 	
 	return(0);
 	error = matrizNxN_verificar(Test_A, Test_B, Test_C, Test_D, Resultado_E);
