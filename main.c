@@ -49,7 +49,7 @@ void matrizNxN_multiplicar_C(int A[N][N], int B[N][N], int Resultado[N][N]){
 
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
-					Resultado[i][j] = 0; //Inicializar matriz de resultados para asegurar que vale 0 en todas las posiciones
+			Resultado[i][j] = 0; //Inicializar matriz de resultados para asegurar que vale 0 en todas las posiciones
             for (int k = 0; k < N; k++) {
                 Resultado[i][j] += A[i][k] * B[k][j];
             }
