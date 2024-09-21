@@ -258,13 +258,13 @@ Image Symbol Table
     .text                                    0x00000220   Section        0  sys_exit.o(.text)
     .text                                    0x0000022c   Section        4  use_no_semi.o(.text)
     .text                                    0x00000230   Section        0  indicate_semi.o(.text)
-    codigo                                   0x00000230   Section      220  operar.o(codigo)
-    i.main                                   0x0000030c   Section        0  main.o(i.main)
-    i.matrizNxN_multiplicar_C                0x00000384   Section        0  main.o(i.matrizNxN_multiplicar_C)
-    i.matrizNxN_operar_C                     0x00000418   Section        0  main.o(i.matrizNxN_operar_C)
-    i.matrizNxN_transponer                   0x00000510   Section        0  main.o(i.matrizNxN_transponer)
-    i.matrizNxN_verificar                    0x00000564   Section        0  main.o(i.matrizNxN_verificar)
-    .constdata                               0x000005d8   Section       72  main.o(.constdata)
+    codigo                                   0x00000230   Section      472  operar.o(codigo)
+    i.main                                   0x00000408   Section        0  main.o(i.main)
+    i.matrizNxN_multiplicar_C                0x00000480   Section        0  main.o(i.matrizNxN_multiplicar_C)
+    i.matrizNxN_operar_C                     0x00000514   Section        0  main.o(i.matrizNxN_operar_C)
+    i.matrizNxN_transponer                   0x0000060c   Section        0  main.o(i.matrizNxN_transponer)
+    i.matrizNxN_verificar                    0x00000660   Section        0  main.o(i.matrizNxN_verificar)
+    .constdata                               0x000006f8   Section       72  main.o(.constdata)
     .data                                    0x40000000   Section       72  main.o(.data)
     Test_A                                   0x40000000   Data          36  main.o(.data)
     Test_B                                   0x40000024   Data          36  main.o(.data)
@@ -378,13 +378,14 @@ Image Symbol Table
     __use_no_semihosting_swi                 0x0000022c   ARM Code       4  use_no_semi.o(.text)
     __semihosting_library_function           0x00000230   ARM Code       0  indicate_semi.o(.text)
     matriz3x3_operar_ARM_C                   0x00000230   ARM Code       0  operar.o(codigo)
-    main                                     0x0000030c   ARM Code     104  main.o(i.main)
-    matrizNxN_multiplicar_C                  0x00000384   ARM Code     148  main.o(i.matrizNxN_multiplicar_C)
-    matrizNxN_operar_C                       0x00000418   ARM Code     248  main.o(i.matrizNxN_operar_C)
-    matrizNxN_transponer                     0x00000510   ARM Code      84  main.o(i.matrizNxN_transponer)
-    matrizNxN_verificar                      0x00000564   ARM Code     116  main.o(i.matrizNxN_verificar)
-    Region$$Table$$Base                      0x00000620   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x00000640   Number         0  anon$$obj.o(Region$$Table)
+    matriz3x3_operar_ARM                     0x000002b0   ARM Code       0  operar.o(codigo)
+    main                                     0x00000408   ARM Code     104  main.o(i.main)
+    matrizNxN_multiplicar_C                  0x00000480   ARM Code     148  main.o(i.matrizNxN_multiplicar_C)
+    matrizNxN_operar_C                       0x00000514   ARM Code     248  main.o(i.matrizNxN_operar_C)
+    matrizNxN_transponer                     0x0000060c   ARM Code      84  main.o(i.matrizNxN_transponer)
+    matrizNxN_verificar                      0x00000660   ARM Code     152  main.o(i.matrizNxN_verificar)
+    Region$$Table$$Base                      0x00000740   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x00000760   Number         0  anon$$obj.o(Region$$Table)
     __libspace_start                         0x40000048   Data          96  libspace.o(.bss)
     __temporary_stack_top$libspace           0x400000a8   Data           0  libspace.o(.bss)
 
@@ -396,9 +397,9 @@ Memory Map of the image
 
   Image Entry point : 0x00000000
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x00000688, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x000007a8, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00000640, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00000760, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -463,24 +464,24 @@ Memory Map of the image
     0x00000220   0x00000220   0x0000000c   Code   RO          163    .text               c_t.l(sys_exit.o)
     0x0000022c   0x0000022c   0x00000004   Code   RO          174    .text               c_t.l(use_no_semi.o)
     0x00000230   0x00000230   0x00000000   Code   RO          176    .text               c_t.l(indicate_semi.o)
-    0x00000230   0x00000230   0x000000dc   Code   RO           12    codigo              operar.o
-    0x0000030c   0x0000030c   0x00000078   Code   RO           15    i.main              main.o
-    0x00000384   0x00000384   0x00000094   Code   RO           16    i.matrizNxN_multiplicar_C  main.o
-    0x00000418   0x00000418   0x000000f8   Code   RO           17    i.matrizNxN_operar_C  main.o
-    0x00000510   0x00000510   0x00000054   Code   RO           18    i.matrizNxN_transponer  main.o
-    0x00000564   0x00000564   0x00000074   Code   RO           19    i.matrizNxN_verificar  main.o
-    0x000005d8   0x000005d8   0x00000048   Data   RO           20    .constdata          main.o
-    0x00000620   0x00000620   0x00000020   Data   RO          231    Region$$Table       anon$$obj.o
+    0x00000230   0x00000230   0x000001d8   Code   RO           12    codigo              operar.o
+    0x00000408   0x00000408   0x00000078   Code   RO           15    i.main              main.o
+    0x00000480   0x00000480   0x00000094   Code   RO           16    i.matrizNxN_multiplicar_C  main.o
+    0x00000514   0x00000514   0x000000f8   Code   RO           17    i.matrizNxN_operar_C  main.o
+    0x0000060c   0x0000060c   0x00000054   Code   RO           18    i.matrizNxN_transponer  main.o
+    0x00000660   0x00000660   0x00000098   Code   RO           19    i.matrizNxN_verificar  main.o
+    0x000006f8   0x000006f8   0x00000048   Data   RO           20    .constdata          main.o
+    0x00000740   0x00000740   0x00000020   Data   RO          231    Region$$Table       anon$$obj.o
 
 
-    Execution Region ER_RW (Exec base: 0x40000000, Load base: 0x00000640, Size: 0x00000048, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Exec base: 0x40000000, Load base: 0x00000760, Size: 0x00000048, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x40000000   0x00000640   0x00000048   Data   RW           21    .data               main.o
+    0x40000000   0x00000760   0x00000048   Data   RW           21    .data               main.o
 
 
-    Execution Region ER_ZI (Exec base: 0x40000048, Load base: 0x00000688, Size: 0x000004e8, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Exec base: 0x40000048, Load base: 0x000007a8, Size: 0x000004e8, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -496,12 +497,12 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       716         16         72         72          0       9455   main.o
-       220          0          0          0          0        296   operar.o
+       752         16         72         72          0       9471   main.o
+       472          0          0          0          0        372   operar.o
         32         12          0          0       1160        272   startup.o
 
     ----------------------------------------------------------------------
-       968         28        104         72       1160      10023   Object Totals
+      1256         28        104         72       1160      10115   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          0          0          0          0          0          0   (incl. Padding)
 
@@ -551,15 +552,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      1496         48        104         72       1256      10363   Grand Totals
-      1496         48        104         72       1256      10363   ELF Image Totals
-      1496         48        104         72          0          0   ROM Totals
+      1784         48        104         72       1256      10455   Grand Totals
+      1784         48        104         72       1256      10455   ELF Image Totals
+      1784         48        104         72          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 1600 (   1.56kB)
+    Total RO  Size (Code + RO Data)                 1888 (   1.84kB)
     Total RW  Size (RW Data + ZI Data)              1328 (   1.30kB)
-    Total ROM Size (Code + RO Data + RW Data)       1672 (   1.63kB)
+    Total ROM Size (Code + RO Data + RW Data)       1960 (   1.91kB)
 
 ==============================================================================
 
