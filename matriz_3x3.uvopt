@@ -149,16 +149,26 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
+<<<<<<< HEAD
           <LineNumber>93</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>1152</Address>
+=======
+          <LineNumber>104</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>1656</Address>
+>>>>>>> d7935aa8cfa96f51d32f213424591a7d73b8c596
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
+<<<<<<< HEAD
           <Filename>.\Thumb_code.s</Filename>
+=======
+          <Filename>C:\Users\Xtremmedia\Documents\Informatica\Tercero\HARDWARE\Hardware\main.c</Filename>
+>>>>>>> d7935aa8cfa96f51d32f213424591a7d73b8c596
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
@@ -198,8 +208,13 @@
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
+<<<<<<< HEAD
           <SubType>1</SubType>
           <ItemText>r2</ItemText>
+=======
+          <SubType>257</SubType>
+          <ItemText>r0</ItemText>
+>>>>>>> d7935aa8cfa96f51d32f213424591a7d73b8c596
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
