@@ -17,6 +17,7 @@ void matrizNxN_transponer(int A[N][N],int Traspuesta[N][N]);
 uint8_t matrizNxN_operar_C(int A[N][N], int B[N][N], int C[N][N], int D[N][N], int Resultado[N][N]);
 uint8_t matriz3x3_operar_ARM_C(int A[N][N], int B[N][N], int C[N][N], int D[N][N], int Resultado[N][N]);
 uint8_t matriz3x3_operar_ARM(int A[N][N], int B[N][N], int C[N][N], int D[N][N], int Resultado[N][N]);
+uint8_t matriz3x3_operar_THB(int A[N][N], int B[N][N], int C[N][N], int D[N][N], int Resultado[N][N]);
 //TODO
 #if 0
 // funciones a implementar en ARM y thumb para matrices de 3x3
@@ -25,7 +26,7 @@ uint8_t matriz3x3_operar_ARM(int A[N][N], int B[N][N], int C[N][N], int D[N][N],
 
 
 //operar implementada en Thumb
-uint8_t matriz3x3_operar_THB(int A[N][N], int B[N][N], int C[N][N], int D[N][N], int Resultado[N][N]);
+
 
 #endif // 0
 

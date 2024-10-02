@@ -431,6 +431,11 @@
               <FileType>2</FileType>
               <FilePath>.\operar.s</FilePath>
             </File>
+            <File>
+              <FileName>Thumb_code.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Thumb_code.s</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

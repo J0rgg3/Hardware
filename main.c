@@ -104,7 +104,7 @@ uint8_t matrizNxN_verificar(int A[N][N], int B[N][N], int C[N][N], int D[N][N], 
 	terminos_no_cero_C = matrizNxN_operar_C(A, B, C, D, Resultado);
 	terminos_no_cero_ARM_C = matriz3x3_operar_ARM_C(A,B,C,D,Resultado);//Resultado_E acaba en 0x40000484
 	terminos_no_cero_ARM = matriz3x3_operar_ARM(A,B,C,D,Resultado);
-		
+	terminos_no_cero_THB = matriz3x3_operar_THB(A,B,C,D,Resultado);	
 	//TODO llamar al resto de implementaciones en ensamblador
 	resultado = (terminos_no_cero_C == terminos_no_cero_ARM_C) && (terminos_no_cero_C == terminos_no_cero_ARM) ; //&& (terminos_no_cero_C == terminos_no_cero_ARM) && (terminos_no_cero_C == terminos_no_cero_THB);
 	//TODO resultado = (terminos_no_cero_C ! = al resto....
@@ -115,7 +115,7 @@ uint8_t matrizNxN_verificar(int A[N][N], int B[N][N], int C[N][N], int D[N][N], 
 
 // MAIN 
 int main (void) {
-
+	
 	int Resultado_E[N][N];
 	int error;
 
@@ -131,7 +131,7 @@ int main (void) {
 		{0, 0, 2}
 	};
 	
-	
+
 
 	error = matrizNxN_verificar(Test_A, Test_B, Test_C, Test_D, Resultado_E);
 	if(error == 0){
