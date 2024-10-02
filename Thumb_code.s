@@ -10,101 +10,128 @@ Tamanio		EQU N*N
 		
 		EXPORT matriz3x3_operar_THB
 		PRESERVE8 {TRUE}
+		
 		ARM
-
 matriz3x3_operar_THB
 
 			MOV IP, SP								;PROLOGO
 			STMDB SP!, {r4-r10,FP,IP,LR,PC}
 			SUB FP, IP, #4
-			SUB SP, #108	
+			SUB SP, #112
 			
 			MOV r4,r0 							; r4 = @Test_a
 			MOV r5,r1 							; r5 = @Test_b
 			MOV r6,r2 							; r6 = @Test_c
 			MOV r7,r3 							; r7 = @Test_d
 			LDR r9,[IP]							; r9 = IP = @Resultados_E
+			STR lr,[r13,#112]					; Guardamos como variable local el valor del link register 
 			
-;			MOV r0,r1
-;			; Pasar como parametro resultados
-;			ADR r4, Trasponer + 1 	; Processor starts in ARM state
-;			BX r4 					; Inline switch to Thumb state
-;			THUMB 					; Subsequent instructions are Thumb
+			;DUDA!!!
+			; Tema: Vuelta de thumb a arm
+			; Al volver de thumb no funciona correctamente --> comprobar solución
+		
+		
+		;A*B
+			; Parametros multiplicar A*B
+			MOV r2,SP						 	; r2 =@AB r2 apunta a la memoria que hemos hecho para las variables locales, en concreto a donde apunta sp
+			
+			ADR r8,Multiplicar+1
+			MOV lr,pc							; OBLIGATORIO, se guarda el lr al que vamos a volver
+ 			bx r8
+		;C*D
+			;Parametros multiplicar C*D
+			MOV r0,r6							; r0 = @Test_c
+			MOV r1,r7							; r1 = @Test_d
+			ADD r2,SP,#36						; r2 =@CD r2 apunta a la memoria que hemos hecho para las variables locales, en concreto a donde apunta sp+36 que lo que AB
+			
+			ADR r8,Multiplicar+1
+			MOV lr,pc
+			bx r8
+			
+				
+		;CD(Traspuesta)
+			ADD r0,SP,#36						; r0 = @CD
+			ADD r1,SP,#72						; r1 = @Traspuesta
+									
+			ADR r8,Trasponer+1			
+			MOV lr,pc							; Guardamos el punto de retorno
+			bx r8
 			
 			
-			MOV r0,r6
-			MOV r1,r7
-			MOV r2,r9
+			;SUMA AB + CD traspuesta
+			mov r0,#0
+			LDR r4,=Tamanio						; r4 = N
+			mov r5,SP							; r5 = AB
+			add r6,SP,#72						; r6 = CD traspuesta
 			
-			bl Trasponer
-			ARM
-
+suma		subs r4,r4,#1						; r4(N)--
+			bmi fin_suma
+			ldr r7,[r5,r4,LSL #2]				; r7 = AB[r4]
+			ldr r8,[r6,r4,LSL #2]				; r8 = CD[r4]
+			add r8,r8,r7						; r8=r8+r7
+			cmp r8,#0
+			addne r0,r0,#1						; r0++ = terminos no cero++
+			str r8,[r9,r4,LSL #2]				; Resultado_E[r4] = r8
+			b suma
+fin_suma
+			
+		
+			LDR lr,[r13,#112]					; Recuperamos el valor del lr anterior
 			
 			LDMDB FP, {r4-r10,FP,SP,PC}	
 
 ;-------------------------------------------------------------------SUBRUTINAS----------------------------------------------------------------------
 			
+		THUMB
 Trasponer	
-			MOV IP, SP								;PROLOGO
-			STMDB SP!, {r4-r6,FP,IP,LR,PC}
-			SUB FP, IP, #4
-			ADR r4,Trasponer_thumb+1
-			bx r4
+			MOV IP,lr	
+			STMDB R13!, { r3-r6}				; duda: Es necesario salvaguardar r0-r3 sabiendo que lo de arriba está en arm y sigue atpcs?
 			
-Trasponer_thumb	
-			THUMB
-			
-			; r0 = @A	
-			
-			LDR r2, =N					; r2 = N
-			MOVS r3,#0					; r3 = i
+			LDR r2, =N							; r2 = N
+			MOVS r3,#0							; r3 = i
 				
 bcl_i
-			CMP r3,r2           		 ; i < N?
+			CMP r3,r2           		 		; i < N?
 			bge epilogo
-			MOVS r4,#0          			 ; r7 = j
+			MOVS r4,#0          			 	; r7 = j
 
 bcl_j
-			cmp r4,r2           		; j < N?
+			cmp r4,r2           				; j < N?
 			bge sg_i
-			MOVS r5,r2					; r5 = N	
-			MULS r5,r3,r5       		; r5 = i*N 
-			ADDS r5,r5,r4        		; r5 = i*N+j
+			MOVS r5,r2							; r5 = N	
+			MULS r5,r3,r5       				; r5 = i*N 
+			ADDS r5,r5,r4        				; r5 = i*N+j
 			LSLS r5,r5,#2
-			LDR r6,[r0,r5]     			; r6 = CD[i][j]
+			LDR r6,[r0,r5]     					; r6 = CD[i][j]
 			
-			MOVS r5,r2					; r5 = N	
-			MULS r5,r4,r5       		; r5 = j*N 
-			ADDS r5,r5,r3        		; r5 = j*N+i
+			MOVS r5,r2							; r5 = N	
+			MULS r5,r4,r5       				; r5 = j*N 
+			ADDS r5,r5,r3        				; r5 = j*N+i
 			LSLS r5,r5,#2
-			STR r6,[r1,r5]				; Traspuesta [j][i] = r6 = CD[i][j]
+			STR r6,[r1,r5]						; Traspuesta [j][i] = r6 = CD[i][j]
 
-			ADDS r4,r4,#1        		; j++
+			ADDS r4,r4,#1        				; j++
 			B bcl_j
 
 sg_i
-			ADDS r3,r3,#1        		; i++
+			ADDS r3,r3,#1        				; i++
 			B bcl_i
 			
-			
-		
 epilogo 	
-			ARM
-			LDMDB FP, {r4-r7,FP,SP,PC}	
-;--------------------------------------------------------------------------------------------										
+			MOV lr,IP
+			LDMIA R13!, {r0-r6}
+			bx lr
+			 
+			 
+			 
+			 
+;-------------------------------------------------------------------------------------										
 
-
+		THUMB
 Multiplicar	
-			
-			MOV IP, SP								;PROLOGO
-			STMDB SP!, {r4-r10,FP,IP,LR,PC}
-			SUB FP, IP, #4
-			SUB SP, #4	
-			ADR r4,Multiplicar_thumb+1
-			bx r4	
-
-Multiplicar_thumb
-			THUMB
+			MOV IP,lr							; Solución: Guardamos en IP el valor del lr
+			STMDB R13!, {r0-r7}					; No guardo lr porque luego volvemos con bx y no con "pop" pc
+												; Problema: si se modifica el lr no se puede recuperar
 			; r0 = @A
 			; r1 = @B
 			; r2 = @Resultado
@@ -123,7 +150,7 @@ bucle_j
 												; j < 0?
 			LDR r7,=N
 			MULS r7,r4,r7						; r7 = i*N + j =[i][j]
-			ADDS r7,r5						;
+			ADDS r7,r5						
 			LSLS r7,r7,#2
 			MOVS r3,#0							; r3 = 0
 			STR r3,[r2,r7]						; Resultado[i][j] = 0 inicialización del elemento
@@ -136,43 +163,43 @@ bucle_k		subs r6,r6,#1						; k < N?
 			
 		; A[i][k] y B[k][j]
 
-			LDR r7,=N					; r7  = N
-			;mla r8,r4,r7,r6        		; r8  = i*N + K =[i][k]
-			MULS r7,r4,r7				; r7 = i*N + j =[i][j]
-			ADDS r7,r6					;
+			LDR r7,=N							; r7  = N
+			;mla r8,r4,r7,r6        			; r8  = i*N + K =[i][k]
+			MULS r7,r4,r7						; r7 = i*N + j =[i][j]
+			ADDS r7,r6					
 			LSLS r7,r7,#2
-			LDR r3,[r0,r7]				; r3  = A[i][k]
-			MOV r8,r3					; r8  = A[i][k]
+			LDR r3,[r0,r7]						; r3  = A[i][k]
+			MOV r8,r3							; r8  = A[i][k]
 			
 			LDR r7,=N				
-			;mla r9,r6,r7,r5			; r9  = k*N + j =[k][j]
-			MULS r7,r6,r7				; r7 = i*N + j =[i][j]
-			ADDS r7,r5					;
+			;mla r9,r6,r7,r5					; r9  = k*N + j =[k][j]
+			MULS r7,r6,r7						; r7 = i*N + j =[i][j]
+			ADDS r7,r5					
 			LSLS r7,r7,#2
-			LDR r3,[r1,r7]				; r3 = B[k][j]
-			MOV r7,r8					; r7 = A[i][k]
+			LDR r3,[r1,r7]						; r3 = B[k][j]
+			MOV r7,r8							; r7 = A[i][k]
 			
 		; A[i][k] * B[k][j]
 
-			MULS r3,r7,r3				; r3  = A[i][k] * B[k][j]
+			MULS r3,r7,r3						; r3  = A[i][k] * B[k][j]
 			
 			
 		;Resultado [i][j] = A[i][k] * B[k][j]
 
-			LDR r7,[SP]					; r7  = i*N + j =[i][j]
-			MOV r8,r7					; r8 =[i][j] 
-			LDR r7,[r2,r7]				; r7 = Resultado[i][j]
-			ADDS r3,r7				 	; r3 = Resultado[i][j] + A[i][k] * B[k][j]
+			LDR r7,[SP]							; r7  = i*N + j =[i][j]
+			MOV r8,r7							; r8 =[i][j] 
+			LDR r7,[r2,r7]						; r7 = Resultado[i][j]
+			ADDS r3,r7				 			; r3 = Resultado[i][j] + A[i][k] * B[k][j]
 			MOV r7,r8
-			STR r3,[r2,r7]				; Resultado[i]][j] = Resultado[i][j] + A[i][k] * B[k][j]
+			STR r3,[r2,r7]						; Resultado[i]][j] = Resultado[i][j] + A[i][k] * B[k][j]
 			
 
 			b bucle_k	
 			
-	;ARM			
+				
 epilogo2 
-
-			;LDMDB FP, {r4-r7,FP,SP,PC}			; Load R2,R6 and R15 (PC) from the stack
-
-
+			MOV lr,IP							; Recuperamos el valor de lr 
+			LDMIA R13!,{r0-r7}					; Desapilamos y restauramos la pila				
+			bx lr								; salto con cambio de modo, apunte -> igual se puede poner ip en el salto
+		
 	END

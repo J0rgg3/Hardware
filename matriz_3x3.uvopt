@@ -149,35 +149,25 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-<<<<<<< HEAD
-          <LineNumber>93</LineNumber>
+          <LineNumber>81</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1152</Address>
-=======
-          <LineNumber>104</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>1656</Address>
->>>>>>> d7935aa8cfa96f51d32f213424591a7d73b8c596
+          <Address>1188</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-<<<<<<< HEAD
           <Filename>.\Thumb_code.s</Filename>
-=======
-          <Filename>C:\Users\Xtremmedia\Documents\Informatica\Tercero\HARDWARE\Hardware\main.c</Filename>
->>>>>>> d7935aa8cfa96f51d32f213424591a7d73b8c596
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>39</LineNumber>
+          <LineNumber>79</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1080</Address>
+          <Address>1184</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -186,14 +176,62 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Thumb_code.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\matriz_3x3\Thumb_code.s\39</Expression>
+          <Expression></Expression>
         </Bp>
         <Bp>
           <Number>2</Number>
           <Type>0</Type>
+          <LineNumber>56</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>1120</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\Thumb_code.s</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\matriz_3x3\Thumb_code.s\56</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>49</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>1108</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\Thumb_code.s</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\matriz_3x3\Thumb_code.s\49</Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>40</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>1084</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\Thumb_code.s</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\matriz_3x3\Thumb_code.s\40</Expression>
+        </Bp>
+        <Bp>
+          <Number>5</Number>
+          <Type>0</Type>
           <LineNumber>109</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1992</Address>
+          <Address>2068</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -208,13 +246,8 @@
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
-<<<<<<< HEAD
           <SubType>1</SubType>
-          <ItemText>r2</ItemText>
-=======
-          <SubType>257</SubType>
           <ItemText>r0</ItemText>
->>>>>>> d7935aa8cfa96f51d32f213424591a7d73b8c596
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -222,7 +255,7 @@
         <Mm>
           <WinNumber>2</WinNumber>
           <SubType>1</SubType>
-          <ItemText>r2</ItemText>
+          <ItemText>sp+112</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow2>
@@ -230,7 +263,7 @@
         <Mm>
           <WinNumber>3</WinNumber>
           <SubType>2</SubType>
-          <ItemText>sp</ItemText>
+          <ItemText>sp+112</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow3>
