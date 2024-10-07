@@ -149,23 +149,103 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>81</LineNumber>
+          <LineNumber>150</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1188</Address>
+          <Address>812</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\Thumb_code.s</Filename>
+          <Filename>.\operar.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\matriz_3x3\Thumb_code.s\81</Expression>
+          <Expression></Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>79</LineNumber>
+          <LineNumber>85</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>684</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\operar.s</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>107</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>2040</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>106</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>2012</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>105</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>1984</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>5</Number>
+          <Type>0</Type>
+          <LineNumber>104</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>1956</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>6</Number>
+          <Type>0</Type>
+          <LineNumber>74</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>1184</Address>
           <ByteObject>0</ByteObject>
@@ -176,12 +256,12 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Thumb_code.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\matriz_3x3\Thumb_code.s\79</Expression>
+          <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>2</Number>
+          <Number>7</Number>
           <Type>0</Type>
-          <LineNumber>56</LineNumber>
+          <LineNumber>51</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>1120</Address>
           <ByteObject>0</ByteObject>
@@ -192,12 +272,12 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Thumb_code.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\matriz_3x3\Thumb_code.s\56</Expression>
+          <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>3</Number>
+          <Number>8</Number>
           <Type>0</Type>
-          <LineNumber>49</LineNumber>
+          <LineNumber>44</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>1108</Address>
           <ByteObject>0</ByteObject>
@@ -208,12 +288,12 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Thumb_code.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\matriz_3x3\Thumb_code.s\49</Expression>
+          <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>4</Number>
+          <Number>9</Number>
           <Type>0</Type>
-          <LineNumber>40</LineNumber>
+          <LineNumber>35</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>1084</Address>
           <ByteObject>0</ByteObject>
@@ -224,10 +304,10 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Thumb_code.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\matriz_3x3\Thumb_code.s\40</Expression>
+          <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>5</Number>
+          <Number>10</Number>
           <Type>0</Type>
           <LineNumber>109</LineNumber>
           <EnabledFlag>1</EnabledFlag>
@@ -240,14 +320,30 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\matriz_3x3\main.c\109</Expression>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>11</Number>
+          <Type>0</Type>
+          <LineNumber>57</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>1132</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\Thumb_code.s</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
         </Bp>
       </Breakpoint>
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>1</SubType>
-          <ItemText>r0</ItemText>
+          <ItemText>r9</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>

@@ -119,20 +119,11 @@ uint8_t matrizNxN_operar_C(int A[N][N], int B[N][N], int C[N][N], int D[N][N], i
 	for (int i = 0; i <N ; i++){
 		for (int j = 0; j < N; j++)
 		{
-			Resultado[i][j] = AB[i][j] + Traspuesta[i][j];
-		}
-			
-	}
-
-	for (int i = 0; i < N; i++)
-	{
-		for(int j = 0; j < N; j++)
-		{
-			if(Resultado[i][j] != 0){
+			if((Resultado[i][j] = (AB[i][j] + Traspuesta[i][j])) != 0){
 				terminos_no_cero++;
 			}
 		}
-		
+			
 	}
 	
 	return terminos_no_cero;
