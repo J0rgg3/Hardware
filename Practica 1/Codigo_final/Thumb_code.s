@@ -83,16 +83,17 @@ Trasponer
 			STMDB R13!, {r3-r6}				
 			
 			LDR r2, =N							; r2 = N
-			MOVS r3,#0							; r3 = i
+			MOVS r3,r2							; r3 = i
 				
 bcl_i
-			CMP r3,r2           		 		; i < N?
-			bge epilogo
-			MOVS r4,#0          			 	; r7 = j
+			SUBS r3,r3,#1          		 		; i < N?
+			bmi epilogo
+			MOVS r4,r2          			 	; r4 = j
 
 bcl_j
-			cmp r4,r2           				; j < N?
-			bge sg_i
+			SUBS r4,r4,#1          				; j < N?
+			bmi bcl_i
+			
 			MOVS r5,r2							; r5 = N	
 			MULS r5,r3,r5       				; r5 = i*N 
 			ADDS r5,r5,r4        				; r5 = i*N+j
@@ -105,12 +106,7 @@ bcl_j
 			LSLS r5,r5,#2
 			STR r6,[r1,r5]						; Traspuesta [j][i] = r6 = CD[i][j]
 
-			ADDS r4,r4,#1        				; j++
 			B bcl_j
-
-sg_i
-			ADDS r3,r3,#1        				; i++
-			B bcl_i
 			
 epilogo 	
 			MOV lr,IP

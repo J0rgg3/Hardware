@@ -162,36 +162,32 @@ Trasponer
 			STMDB SP!, {r4-r10,FP,IP,LR,PC}
 			SUB FP, IP, #4
 					
-			mov r4,r0 					; r4 = @CD
-			mov r5,r1 					; r5 = @Traspuesta
+			
 		
-			MOV r6,#0					; r6 = i
+			
 			LDR r8, =N					; r8 = N
+			MOV r6,r8					; r6 = i
 				
 bcl_i
-			cmp r6,r8           		 ; i < N?
-			bge epilogo
-			mov r7,#0          			 ; r7 = j
+			subs r6,r6,#1           	; i < N?
+			bmi epilogo
+			mov r7,r8          			 ; r7 = j
 
 bcl_j
-			;prologo
-			cmp r7,r8           		; j < N?
-			bge sg_i
+			
+			subs r7,r7,#1           		; j < N?
+			bmi bcl_i
 			mul r9,r6,r8        		; r9 = i*N = r9
 			add r9,r9,r7        		; r9 = i*N+j
-			ldr r10,[r4,r9, LSL#2]     	; r10 = CD[i][j]
+			ldr r10,[r0,r9, LSL#2]     	; r10 = CD[i][j]
 			
 			mul r9,r7,r8        		; r9 = jN
 			add r9,r9,r6        		; r9 = jN+i
 			
-			str r10,[r5,r9, LSL #2]     ; transpuesta[j][i] = matriz [i][j]
-			add r7,r7,#1        		; j++
-			b bcl_j
-
-sg_i
-			add r6,r6,#1        		; i++
-			b bcl_i
+			str r10,[r1,r9, LSL #2]     ; transpuesta[j][i] = matriz [i][j]
 			
+			b bcl_j
+	
 
 epilogo 	LDMDB FP, {r4-r10,FP,SP,PC}	
 

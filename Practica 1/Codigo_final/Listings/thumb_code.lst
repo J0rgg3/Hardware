@@ -47,7 +47,7 @@ ARM Macro Assembler    Page 1
                                                              en concreto a dond
                                                             e apunta sp
    32 0000002C         
-   33 0000002C E28F80A1        ADR              r8,Multiplicar+1
+   33 0000002C E28F809B        ADR              r8,Multiplicar+1
    34 00000030 E1A0E00F        MOV              lr,pc       ; OBLIGATORIO, se g
                                                             uarda el lr al que 
                                                             vamos a volver
@@ -70,7 +70,7 @@ ARM Macro Assembler    Page 2
 
 
    41 00000044         
-   42 00000044 E28F8089        ADR              r8,Multiplicar+1
+   42 00000044 E28F8083        ADR              r8,Multiplicar+1
    43 00000048 E1A0E00F        MOV              lr,pc
    44 0000004C E12FFF18        bx               r8
    45 00000050         
@@ -124,8 +124,8 @@ ARM Macro Assembler    Page 2
    82 000000A0 46F4            MOV              IP,lr
    83 000000A2 B478            STMDB            R13!, {r3-r6}
    84 000000A4         
-   85 000000A4 4A20            LDR              r2, =N      ; r2 = N
-   86 000000A6 2300            MOVS             r3,#0       ; r3 = i
+   85 000000A4 4A1E            LDR              r2, =N      ; r2 = N
+   86 000000A6 0013            MOVS             r3,r2       ; r3 = i
    87 000000A8         
    88 000000A8         bcl_i
 
@@ -134,157 +134,153 @@ ARM Macro Assembler    Page 2
 ARM Macro Assembler    Page 3 
 
 
-   89 000000A8 4293            CMP              r3,r2       ; i < N?
-   90 000000AA DA10            bge              epilogo
-   91 000000AC 2400            MOVS             r4,#0       ; r7 = j
+   89 000000A8 1E5B            SUBS             r3,r3,#1    ; i < N?
+   90 000000AA D40D            bmi              epilogo
+   91 000000AC 0014            MOVS             r4,r2       ; r4 = j
    92 000000AE         
    93 000000AE         bcl_j
-   94 000000AE 4294            cmp              r4,r2       ; j < N?
-   95 000000B0 DA0B            bge              sg_i
-   96 000000B2 0015            MOVS             r5,r2       ; r5 = N 
-   97 000000B4 435D            MULS             r5,r3,r5    ; r5 = i*N 
-   98 000000B6 192D            ADDS             r5,r5,r4    ; r5 = i*N+j
-   99 000000B8 00AD            LSLS             r5,r5,#2
-  100 000000BA 5946            LDR              r6,[r0,r5]  ; r6 = CD[i][j]
-  101 000000BC         
-  102 000000BC 0015            MOVS             r5,r2       ; r5 = N 
-  103 000000BE 4365            MULS             r5,r4,r5    ; r5 = j*N 
-  104 000000C0 18ED            ADDS             r5,r5,r3    ; r5 = j*N+i
-  105 000000C2 00AD            LSLS             r5,r5,#2
-  106 000000C4 514E            STR              r6,[r1,r5]  ; Traspuesta [j][i]
+   94 000000AE 1E64            SUBS             r4,r4,#1    ; j < N?
+   95 000000B0 D4FA            bmi              bcl_i
+   96 000000B2         
+   97 000000B2 0015            MOVS             r5,r2       ; r5 = N 
+   98 000000B4 435D            MULS             r5,r3,r5    ; r5 = i*N 
+   99 000000B6 192D            ADDS             r5,r5,r4    ; r5 = i*N+j
+  100 000000B8 00AD            LSLS             r5,r5,#2
+  101 000000BA 5946            LDR              r6,[r0,r5]  ; r6 = CD[i][j]
+  102 000000BC         
+  103 000000BC 0015            MOVS             r5,r2       ; r5 = N 
+  104 000000BE 4365            MULS             r5,r4,r5    ; r5 = j*N 
+  105 000000C0 18ED            ADDS             r5,r5,r3    ; r5 = j*N+i
+  106 000000C2 00AD            LSLS             r5,r5,#2
+  107 000000C4 514E            STR              r6,[r1,r5]  ; Traspuesta [j][i]
                                                              = r6 = CD[i][j]
-  107 000000C6         
-  108 000000C6 1C64            ADDS             r4,r4,#1    ; j++
-  109 000000C8 E7F1            B                bcl_j
-  110 000000CA         
-  111 000000CA         sg_i
-  112 000000CA 1C5B            ADDS             r3,r3,#1    ; i++
-  113 000000CC E7EC            B                bcl_i
-  114 000000CE         
-  115 000000CE         epilogo
-  116 000000CE 46E6            MOV              lr,IP
-  117 000000D0 BC78            LDMIA            R13!, {r3-r6}
-  118 000000D2 4770            bx               lr
-  119 000000D4         
-  120 000000D4         
-  121 000000D4         
-  122 000000D4         
-  123 000000D4         ;-------------------------------------------------------
+  108 000000C6         
+  109 000000C6 E7F2            B                bcl_j
+  110 000000C8         
+  111 000000C8         epilogo
+  112 000000C8 46E6            MOV              lr,IP
+  113 000000CA BC78            LDMIA            R13!, {r3-r6}
+  114 000000CC 4770            bx               lr
+  115 000000CE         
+  116 000000CE         
+  117 000000CE         
+  118 000000CE         
+  119 000000CE         ;-------------------------------------------------------
                        ------------------------------          
-  124 000000D4         
-  125 000000D4                 THUMB
-  126 000000D4         Multiplicar
-  127 000000D4 46F4            MOV              IP,lr       ; Guardamos en IP e
+  120 000000CE         
+  121 000000CE                 THUMB
+  122 000000CE         Multiplicar
+  123 000000CE 46F4            MOV              IP,lr       ; Guardamos en IP e
                                                             l valor del lr
-  128 000000D6 B4FF            STMDB            R13!, {r0-r7} ; No se guarda lr
+  124 000000D0 B4FF            STMDB            R13!, {r0-r7} ; No se guarda lr
                                                              porque luego volve
                                                             mos con bx y no con
                                                              "pop" pc
-  129 000000D8         
-  130 000000D8         ; r0 = @A
-  131 000000D8         ; r1 = @B
-  132 000000D8         ; r2 = @Resultado
-  133 000000D8         
-  134 000000D8         
-  135 000000D8 4C13            LDR              r4,=N       ; r4 = i
-  136 000000DA         
-  137 000000DA         bucle_i
-  138 000000DA 1E64            subs             r4,r4,#1    ; i--
-  139 000000DC D420            bmi              epilogo2
-  140 000000DE 4D12            LDR              r5,=N       ; r5 = j
-  141 000000E0         
+  125 000000D2         
+  126 000000D2         ; r0 = @A
+  127 000000D2         ; r1 = @B
+  128 000000D2         ; r2 = @Resultado
+  129 000000D2         
+  130 000000D2         
+  131 000000D2 4C13            LDR              r4,=N       ; r4 = i
+  132 000000D4         
+  133 000000D4         bucle_i
+  134 000000D4 1E64            subs             r4,r4,#1    ; i--
+  135 000000D6 D420            bmi              epilogo2
+  136 000000D8 4D11            LDR              r5,=N       ; r5 = j
+  137 000000DA         
+  138 000000DA         bucle_j
+  139 000000DA 1E6D            subs             r5,r5,#1    ; j--
+  140 000000DC D4FA            bmi              bucle_i
+  141 000000DE         ; j < 0?
 
 
 
 ARM Macro Assembler    Page 4 
 
 
-  142 000000E0         bucle_j
-  143 000000E0 1E6D            subs             r5,r5,#1    ; j--
-  144 000000E2 D4FA            bmi              bucle_i
-  145 000000E4         ; j < 0?
-  146 000000E4 4F10            LDR              r7,=N
-  147 000000E6 4367            MULS             r7,r4,r7    ; r7 = i*N + j =[i]
+  142 000000DE 4F10            LDR              r7,=N
+  143 000000E0 4367            MULS             r7,r4,r7    ; r7 = i*N + j =[i]
                                                             [j]
-  148 000000E8 197F            ADDS             r7,r5
-  149 000000EA 00BF            LSLS             r7,r7,#2
-  150 000000EC 2300            MOVS             r3,#0       ; r3 = 0
-  151 000000EE 51D3            STR              r3,[r2,r7]  ; Resultado[i][j] =
+  144 000000E2 197F            ADDS             r7,r5
+  145 000000E4 00BF            LSLS             r7,r7,#2
+  146 000000E6 2300            MOVS             r3,#0       ; r3 = 0
+  147 000000E8 51D3            STR              r3,[r2,r7]  ; Resultado[i][j] =
                                                              0 inicialización d
                                                             el elemento
-  152 000000F0 9700            STR              r7,[SP]     ; Guardamos r7(indi
+  148 000000EA 9700            STR              r7,[SP]     ; Guardamos r7(indi
                                                             ce [i][j]) como var
                                                             iable local
-  153 000000F2         
-  154 000000F2 4E0D            LDR              r6,=N       ; r6 = k
-  155 000000F4         
-  156 000000F4 1E76    bucle_k subs             r6,r6,#1    ; k < N?
-  157 000000F6 D4F3            bmi              bucle_j
-  158 000000F8         
-  159 000000F8         ; A[i][k] y B[k][j]
-  160 000000F8         
-  161 000000F8 4F0B            LDR              r7,=N       ; r7  = N
-  162 000000FA         ;mla r8,r4,r7,r6           ; r8  = i*N + K =[i][k]
-  163 000000FA 4367            MULS             r7,r4,r7    ; r7 = i*N + j =[i]
+  149 000000EC         
+  150 000000EC 4E0C            LDR              r6,=N       ; r6 = k
+  151 000000EE         
+  152 000000EE 1E76    bucle_k subs             r6,r6,#1    ; k < N?
+  153 000000F0 D4F3            bmi              bucle_j
+  154 000000F2         
+  155 000000F2         ; A[i][k] y B[k][j]
+  156 000000F2         
+  157 000000F2 4F0B            LDR              r7,=N       ; r7  = N
+  158 000000F4         ;mla r8,r4,r7,r6           ; r8  = i*N + K =[i][k]
+  159 000000F4 4367            MULS             r7,r4,r7    ; r7 = i*N + j =[i]
                                                             [j]
-  164 000000FC 19BF            ADDS             r7,r6
-  165 000000FE 00BF            LSLS             r7,r7,#2
-  166 00000100 59C3            LDR              r3,[r0,r7]  ; r3  = A[i][k]
-  167 00000102 4698            MOV              r8,r3       ; r8  = A[i][k]
-  168 00000104         
-  169 00000104 4F08            LDR              r7,=N
-  170 00000106         ;mla r9,r6,r7,r5     ; r9  = k*N + j =[k][j]
-  171 00000106 4377            MULS             r7,r6,r7    ; r7 = i*N + j =[i]
+  160 000000F6 19BF            ADDS             r7,r6
+  161 000000F8 00BF            LSLS             r7,r7,#2
+  162 000000FA 59C3            LDR              r3,[r0,r7]  ; r3  = A[i][k]
+  163 000000FC 4698            MOV              r8,r3       ; r8  = A[i][k]
+  164 000000FE         
+  165 000000FE 4F08            LDR              r7,=N
+  166 00000100         ;mla r9,r6,r7,r5     ; r9  = k*N + j =[k][j]
+  167 00000100 4377            MULS             r7,r6,r7    ; r7 = i*N + j =[i]
                                                             [j]
-  172 00000108 197F            ADDS             r7,r5
-  173 0000010A 00BF            LSLS             r7,r7,#2
-  174 0000010C 59CB            LDR              r3,[r1,r7]  ; r3 = B[k][j]
-  175 0000010E 4647            MOV              r7,r8       ; r7 = A[i][k]
-  176 00000110         
-  177 00000110         ; A[i][k] * B[k][j]
-  178 00000110         
-  179 00000110 437B            MULS             r3,r7,r3    ; r3  = A[i][k] * B
+  168 00000102 197F            ADDS             r7,r5
+  169 00000104 00BF            LSLS             r7,r7,#2
+  170 00000106 59CB            LDR              r3,[r1,r7]  ; r3 = B[k][j]
+  171 00000108 4647            MOV              r7,r8       ; r7 = A[i][k]
+  172 0000010A         
+  173 0000010A         ; A[i][k] * B[k][j]
+  174 0000010A         
+  175 0000010A 437B            MULS             r3,r7,r3    ; r3  = A[i][k] * B
                                                             [k][j]
-  180 00000112         
-  181 00000112         
-  182 00000112         ;Resultado [i][j] = A[i][k] * B[k][j]
-  183 00000112         
-  184 00000112 9F00            LDR              r7,[SP]     ; r7  = i*N + j =[i
+  176 0000010C         
+  177 0000010C         
+  178 0000010C         ;Resultado [i][j] = A[i][k] * B[k][j]
+  179 0000010C         
+  180 0000010C 9F00            LDR              r7,[SP]     ; r7  = i*N + j =[i
                                                             ][j]
-  185 00000114 46B8            MOV              r8,r7       ; r8 =[i][j] 
-  186 00000116 59D7            LDR              r7,[r2,r7]  ; r7 = Resultado[i]
+  181 0000010E 46B8            MOV              r8,r7       ; r8 =[i][j] 
+  182 00000110 59D7            LDR              r7,[r2,r7]  ; r7 = Resultado[i]
                                                             [j]
-  187 00000118 19DB            ADDS             r3,r7       ; r3 = Resultado[i]
+  183 00000112 19DB            ADDS             r3,r7       ; r3 = Resultado[i]
                                                             [j] + A[i][k] * B[k
                                                             ][j]
-  188 0000011A 4647            MOV              r7,r8
+  184 00000114 4647            MOV              r7,r8
+  185 00000116 51D3            STR              r3,[r2,r7]  ; Resultado[i]][j] 
+                                                            = Resultado[i][j] +
+                                                             A[i][k] * B[k][j]
+  186 00000118         
 
 
 
 ARM Macro Assembler    Page 5 
 
 
-  189 0000011C 51D3            STR              r3,[r2,r7]  ; Resultado[i]][j] 
-                                                            = Resultado[i][j] +
-                                                             A[i][k] * B[k][j]
-  190 0000011E         
-  191 0000011E         
-  192 0000011E E7E9            b                bucle_k
-  193 00000120         
-  194 00000120         
-  195 00000120         epilogo2
-  196 00000120 46E6            MOV              lr,IP       ; Recuperamos el va
+  187 00000118         
+  188 00000118 E7E9            b                bucle_k
+  189 0000011A         
+  190 0000011A         
+  191 0000011A         epilogo2
+  192 0000011A 46E6            MOV              lr,IP       ; Recuperamos el va
                                                             lor de lr 
-  197 00000122 BCFF            LDMIA            R13!,{r0-r7} ; Desapilamos y re
+  193 0000011C BCFF            LDMIA            R13!,{r0-r7} ; Desapilamos y re
                                                             stauramos la pila  
                                                               
-  198 00000124 4770            bx               lr          ; salto con cambio 
+  194 0000011E 4770            bx               lr          ; salto con cambio 
                                                             de modo, apunte -> 
                                                             igual se puede pone
                                                             r ip en el salto
-  199 00000126         
-  200 00000126                 END
-              00 00 00000003 
+  195 00000120         
+  196 00000120                 END
+              00000003 
 Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
 bjects\thumb_code.d -o.\objects\thumb_code.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Kei
 l_v5\ARM\CMSIS\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1"
@@ -311,11 +307,11 @@ Comment: datos unused
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Relocatable symbols
 
-Multiplicar 000000D4
+Multiplicar 000000CE
 
 Symbol: Multiplicar
    Definitions
-      At line 126 in file Thumb_code.s
+      At line 122 in file Thumb_code.s
    Uses
       At line 33 in file Thumb_code.s
       At line 42 in file Thumb_code.s
@@ -334,7 +330,7 @@ Symbol: bcl_i
    Definitions
       At line 88 in file Thumb_code.s
    Uses
-      At line 113 in file Thumb_code.s
+      At line 95 in file Thumb_code.s
 Comment: bcl_i used once
 bcl_j 000000AE
 
@@ -344,29 +340,29 @@ Symbol: bcl_j
    Uses
       At line 109 in file Thumb_code.s
 Comment: bcl_j used once
-bucle_i 000000DA
+bucle_i 000000D4
 
 Symbol: bucle_i
    Definitions
-      At line 137 in file Thumb_code.s
+      At line 133 in file Thumb_code.s
    Uses
-      At line 144 in file Thumb_code.s
+      At line 140 in file Thumb_code.s
 Comment: bucle_i used once
-bucle_j 000000E0
+bucle_j 000000DA
 
 Symbol: bucle_j
    Definitions
-      At line 142 in file Thumb_code.s
+      At line 138 in file Thumb_code.s
    Uses
-      At line 157 in file Thumb_code.s
+      At line 153 in file Thumb_code.s
 Comment: bucle_j used once
-bucle_k 000000F4
+bucle_k 000000EE
 
 Symbol: bucle_k
    Definitions
-      At line 156 in file Thumb_code.s
+      At line 152 in file Thumb_code.s
    Uses
-      At line 192 in file Thumb_code.s
+      At line 188 in file Thumb_code.s
 Comment: bucle_k used once
 codigo 00000000
 
@@ -382,21 +378,21 @@ Symbol: codigo
    Uses
       None
 Comment: codigo unused
-epilogo 000000CE
+epilogo 000000C8
 
 Symbol: epilogo
    Definitions
-      At line 115 in file Thumb_code.s
+      At line 111 in file Thumb_code.s
    Uses
       At line 90 in file Thumb_code.s
 Comment: epilogo used once
-epilogo2 00000120
+epilogo2 0000011A
 
 Symbol: epilogo2
    Definitions
-      At line 195 in file Thumb_code.s
+      At line 191 in file Thumb_code.s
    Uses
-      At line 139 in file Thumb_code.s
+      At line 135 in file Thumb_code.s
 Comment: epilogo2 used once
 fin_suma 00000098
 
@@ -414,14 +410,6 @@ Symbol: matriz3x3_operar_THB
    Uses
       At line 11 in file Thumb_code.s
 Comment: matriz3x3_operar_THB used once
-sg_i 000000CA
-
-Symbol: sg_i
-   Definitions
-      At line 111 in file Thumb_code.s
-   Uses
-      At line 95 in file Thumb_code.s
-Comment: sg_i used once
 suma 00000074
 
 Symbol: suma
@@ -430,7 +418,7 @@ Symbol: suma
    Uses
       At line 70 in file Thumb_code.s
 Comment: suma used once
-14 symbols
+13 symbols
 
 
 
@@ -446,12 +434,12 @@ Symbol: N
       At line 4 in file Thumb_code.s
       At line 4 in file Thumb_code.s
       At line 85 in file Thumb_code.s
-      At line 135 in file Thumb_code.s
-      At line 140 in file Thumb_code.s
-      At line 146 in file Thumb_code.s
-      At line 154 in file Thumb_code.s
-      At line 161 in file Thumb_code.s
-      At line 169 in file Thumb_code.s
+      At line 131 in file Thumb_code.s
+      At line 136 in file Thumb_code.s
+      At line 142 in file Thumb_code.s
+      At line 150 in file Thumb_code.s
+      At line 157 in file Thumb_code.s
+      At line 165 in file Thumb_code.s
 
 Tamanio 00000009
 
@@ -462,4 +450,4 @@ Symbol: Tamanio
       At line 58 in file Thumb_code.s
 Comment: Tamanio used once
 2 symbols
-351 symbols in table
+350 symbols in table
