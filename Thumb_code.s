@@ -24,12 +24,7 @@ matriz3x3_operar_THB
 			MOV r6,r2 							; r6 = @Test_c
 			MOV r7,r3 							; r7 = @Test_d
 			LDR r9,[IP]							; r9 = IP = @Resultados_E
-			STR lr,[r13,#112]					; Guardamos como variable local el valor del link register 
-			
-			;DUDA!!!
-			; Tema: Vuelta de thumb a arm
-			; Al volver de thumb no funciona correctamente --> comprobar solución
-		
+			STR lr,[r13,#112]					; Guardamos como variable local el valor del link register 		
 		
 		;A*B
 			; Parametros multiplicar A*B
@@ -85,7 +80,7 @@ fin_suma
 		THUMB
 Trasponer	
 			MOV IP,lr	
-			STMDB R13!, { r3-r6}				; duda: Es necesario salvaguardar r0-r3 sabiendo que lo de arriba está en arm y sigue atpcs?
+			STMDB R13!, {r3-r6}				
 			
 			LDR r2, =N							; r2 = N
 			MOVS r3,#0							; r3 = i
@@ -119,7 +114,7 @@ sg_i
 			
 epilogo 	
 			MOV lr,IP
-			LDMIA R13!, {r0-r6}
+			LDMIA R13!, {r3-r6}
 			bx lr
 			 
 			 
@@ -129,9 +124,9 @@ epilogo
 
 		THUMB
 Multiplicar	
-			MOV IP,lr							; Solución: Guardamos en IP el valor del lr
-			STMDB R13!, {r0-r7}					; No guardo lr porque luego volvemos con bx y no con "pop" pc
-												; Problema: si se modifica el lr no se puede recuperar
+			MOV IP,lr							; Guardamos en IP el valor del lr
+			STMDB R13!, {r0-r7}					; No se guarda lr porque luego volvemos con bx y no con "pop" pc
+												
 			; r0 = @A
 			; r1 = @B
 			; r2 = @Resultado

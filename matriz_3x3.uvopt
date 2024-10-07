@@ -160,7 +160,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Thumb_code.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\matriz_3x3\Thumb_code.s\81</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
@@ -176,7 +176,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Thumb_code.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\matriz_3x3\Thumb_code.s\79</Expression>
         </Bp>
         <Bp>
           <Number>2</Number>
