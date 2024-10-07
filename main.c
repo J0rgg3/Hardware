@@ -125,7 +125,7 @@ uint8_t matrizNxN_verificar(int A[N][N], int B[N][N], int C[N][N], int D[N][N], 
 
 
 	error = matrizNxN_verificar(Test_A, Test_B, Test_C, Test_D, Resultado_E);
-¡	if(error == 0){
+	if(error == 0){
 		return(-1);
 	}
 	
