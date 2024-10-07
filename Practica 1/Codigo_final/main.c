@@ -47,14 +47,25 @@ void matrizNxN_transponer(int A[N][N],int Traspuesta[N][N]){
 		
 void matrizNxN_multiplicar_C(int A[N][N], int B[N][N], int Resultado[N][N]){
 
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-			Resultado[i][j] = 0; //Inicializar matriz de resultados para asegurar que vale 0 en todas las posiciones
-            for (int k = 0; k < N; k++) {
-                Resultado[i][j] += A[i][k] * B[k][j];
-            }
-        }
-    }
+    int suma,fila = 0,columna = 0;
+	while(fila < 3){
+		
+		suma = 0;
+		for(int j = 0; j < N; j++){
+			
+			suma += A[fila][j] * B[j][columna];
+			
+		}
+
+		Resultado[fila][columna] = suma;
+
+		if(columna == 2){
+			columna = 0;
+			fila++;
+		}else{ 
+			columna++;
+		}
+		}
 }
 
 
@@ -97,7 +108,7 @@ uint8_t matrizNxN_verificar(int A[N][N], int B[N][N], int C[N][N], int D[N][N], 
 	terminos_no_cero_ARM = matriz3x3_operar_ARM(A,B,C,D,Resultado);
 	terminos_no_cero_THB = matriz3x3_operar_THB(A,B,C,D,Resultado);	
 	//TODO llamar al resto de implementaciones en ensamblador
-	resultado = (terminos_no_cero_C == terminos_no_cero_ARM_C) && (terminos_no_cero_C == terminos_no_cero_ARM) ; //&& (terminos_no_cero_C == terminos_no_cero_ARM) && (terminos_no_cero_C == terminos_no_cero_THB);
+	resultado = (terminos_no_cero_C == terminos_no_cero_ARM_C) && (terminos_no_cero_C == terminos_no_cero_ARM) && (terminos_no_cero_C == terminos_no_cero_ARM) && (terminos_no_cero_C == terminos_no_cero_THB);
 	//TODO resultado = (terminos_no_cero_C ! = al resto....
 	return resultado;
 }
