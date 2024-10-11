@@ -12,7 +12,6 @@
  * declaracion de funciones visibles en el exterior
  */
 void matrizNxN_multiplicar_C(int A[N][N], int B[N][N], int Resultado[N][N]);
-void matrizNxN_sumar(int A[N][N], int B[N][N], int Resultado[N][N]);
 void matrizNxN_transponer(int A[N][N],int Traspuesta[N][N]);
 uint8_t matrizNxN_operar_C(int A[N][N], int B[N][N], int C[N][N], int D[N][N], int Resultado[N][N]);
 uint8_t matriz3x3_operar_ARM_C(int A[N][N], int B[N][N], int C[N][N], int D[N][N], int Resultado[N][N]);

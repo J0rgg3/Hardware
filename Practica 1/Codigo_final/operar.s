@@ -14,8 +14,11 @@ Tamanio		EQU N*N
 			IMPORT matrizNxN_multiplicar_C
 			
 			PRESERVE8 {TRUE}
+; Función que recibe 4 matrices como parámetro, calcula Resultado = A*B + transpuesta(C*D) y devuelve el número de términos distintos de cero en el Resultado
+; ayudándose de la función matrizNxN_multiplicar_C que calcula A*B y C*D de NxN y de la función matrizNxN_transponer que calcula transpuesta(C*D)
+
 			
-	
+
 
 matriz3x3_operar_ARM_C
 
@@ -27,8 +30,6 @@ matriz3x3_operar_ARM_C
 			; r1 = Test_B
 			; r2 = Test_C
 			; r3 = Test_D	
-			; RESULTADO_E?¿?¿?¿ deberia estar en la pila al ser el 5 parametro pero no lo encuentro
-	;SALVAGUARDA DE LAS MEMORIAS DE LAS MATRICES Y MULTIPLICACIÓN DE A*B
 			
 			MOV r4,r0 							; r4 = @Test_a
 			MOV r5,r1 							; r5 = @Test_b
@@ -83,6 +84,13 @@ fin_suma
 			
 			
 			LDMDB FP, {r4-r10,FP,SP,PC}	
+
+
+
+
+; Función que recibe 4 matrices como parámetro, calcula Resultado = A*B + transpuesta(C*D) y devuelve el número de términos distintos de cero en el Resultado
+; ayudándose de la función matrizNxN_multiplicar que calcula A*B y C*D de NxN y de la función Transponer que calcula transpuesta(C*D)
+
 
 
 
@@ -153,8 +161,9 @@ fin_suma_ARM
 
 ;-------------------------------------------------------------------SUBRUTINAS----------------------------------------------------------------------
 												
-
-
+; Procedimiento que recibe una matriz de tipo entero como parámetro y carga en matriz Traspuesta el resultado 
+; de trasponer la matriz pasada como parámetro.
+; En r8 se utiliza la N, en r5 el índice i, en r7 el índice j,
 
 Trasponer
 				
@@ -191,6 +200,11 @@ bcl_j
 
 epilogo 	LDMDB FP, {r4-r10,FP,SP,PC}	
 
+
+
+; Procedimiento que recibe dos matrices de tipo entero como parámetro y carga en la matriz Resultado
+; la matriz originada de realizar la multiplicación de las dos matrices recibidas como parámetro.
+; En r4 se utiliza el índice i, en r5 el índice j, en r6 EL índice k 
 
 
 matrizNxN_multiplicar

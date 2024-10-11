@@ -22,359 +22,390 @@ ARM Macro Assembler    Page 1
    14 00000000                 IMPORT           matrizNxN_multiplicar_C
    15 00000000         
    16 00000000                 PRESERVE8        {TRUE}
-   17 00000000         
-   18 00000000         
+   17 00000000         ; Función que recibe 4 matrices como parámetro, calcul
+                       a Resultado = A*B + transpuesta(C*D) y devuelve el núme
+                       ro de términos distintos de cero en el Resultado
+   18 00000000         ; ayudándose de la función matrizNxN_multiplicar_C que
+                        calcula A*B y C*D de NxN y de la función matrizNxN_tra
+                       nsponer que calcula transpuesta(C*D)
    19 00000000         
-   20 00000000         matriz3x3_operar_ARM_C
+   20 00000000         
    21 00000000         
-   22 00000000 E1A0C00D        MOV              IP, SP      ;PROLOGO
-   23 00000004 E92DDFF0        STMDB            SP!, {r4-r10,FP,IP,LR,PC}
-   24 00000008 E24CB004        SUB              FP, IP, #4
-   25 0000000C E24DD06C        SUB              SP, #108    ;Hacemos espacio en
+   22 00000000         
+   23 00000000         matriz3x3_operar_ARM_C
+   24 00000000         
+   25 00000000 E1A0C00D        MOV              IP, SP      ;PROLOGO
+   26 00000004 E92DDFF0        STMDB            SP!, {r4-r10,FP,IP,LR,PC}
+   27 00000008 E24CB004        SUB              FP, IP, #4
+   28 0000000C E24DD06C        SUB              SP, #108    ;Hacemos espacio en
                                                              la pila para las v
                                                             ariables locales, 2
                                                              matrices 3x3 108=9
                                                             *4*3
-   26 00000010         ; r0 = Test_A
-   27 00000010         ; r1 = Test_B
-   28 00000010         ; r2 = Test_C
-   29 00000010         ; r3 = Test_D 
-   30 00000010         ; RESULTADO_E?¿?¿?¿ deberia estar en la pila al ser e
-                       l 5 parametro pero no lo encuentro
-   31 00000010         ;SALVAGUARDA DE LAS MEMORIAS DE LAS MATRICES Y MULTIPLIC
-                       ACIÓN DE A*B
-   32 00000010         
-   33 00000010 E1A04000        MOV              r4,r0       ; r4 = @Test_a
-   34 00000014 E1A05001        MOV              r5,r1       ; r5 = @Test_b
-   35 00000018 E1A06002        MOV              r6,r2       ; r6 = @Test_c
-   36 0000001C E1A07003        MOV              r7,r3       ; r7 = @Test_d
-   37 00000020 E59C9000        LDR              r9,[IP]     ; r9 = IP = @Result
+   29 00000010         ; r0 = Test_A
+   30 00000010         ; r1 = Test_B
+   31 00000010         ; r2 = Test_C
+   32 00000010         ; r3 = Test_D 
+   33 00000010         
+   34 00000010 E1A04000        MOV              r4,r0       ; r4 = @Test_a
+   35 00000014 E1A05001        MOV              r5,r1       ; r5 = @Test_b
+   36 00000018 E1A06002        MOV              r6,r2       ; r6 = @Test_c
+   37 0000001C E1A07003        MOV              r7,r3       ; r7 = @Test_d
+   38 00000020 E59C9000        LDR              r9,[IP]     ; r9 = IP = @Result
                                                             ados_E
-   38 00000024         
-   39 00000024 E1A0200D        MOV              r2,SP       ; r2 =@AB r2 apunta
+   39 00000024         
+   40 00000024 E1A0200D        MOV              r2,SP       ; r2 =@AB r2 apunta
                                                              a la memoria que h
                                                             emos hecho para las
                                                              variables locales,
                                                              en concreto a dond
                                                             e apunta sp
-   40 00000028         
    41 00000028         
-   42 00000028 EBFFFFFE        bl               matrizNxN_multiplicar_C
-   43 0000002C         
-   44 0000002C         ;RECORDATORIO Resultado en SP(AB)
-   45 0000002C         
+   42 00000028         
+   43 00000028 EBFFFFFE        bl               matrizNxN_multiplicar_C
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-   46 0000002C         ;PONEMOS LOS PARAMETROS PARA LLAMAR A MULTPLICAR_C OTRA 
+   44 0000002C         
+   45 0000002C         ;RECORDATORIO Resultado en SP(AB)
+   46 0000002C         
+   47 0000002C         ;PONEMOS LOS PARAMETROS PARA LLAMAR A MULTPLICAR_C OTRA 
                        VEZ PARA HACER C*D
-   47 0000002C         
-   48 0000002C E1A00006        mov              r0,r6       ; r0 = @Test_c
-   49 00000030 E1A01007        mov              r1,r7       ; r1 = @Test_d
-   50 00000034 E28D2024        ADD              r2,SP,#36   ; r2 =@CD r2 apunta
+   48 0000002C         
+   49 0000002C E1A00006        mov              r0,r6       ; r0 = @Test_c
+   50 00000030 E1A01007        mov              r1,r7       ; r1 = @Test_d
+   51 00000034 E28D2024        ADD              r2,SP,#36   ; r2 =@CD r2 apunta
                                                              a la memoria que h
                                                             emos hecho para las
                                                              variables locales,
                                                              en concreto a dond
                                                             e apunta sp+36 que 
                                                             lo que AB
-   51 00000038         
-   52 00000038 EBFFFFFE        bl               matrizNxN_multiplicar_C
-   53 0000003C         
-   54 0000003C         ;RECORDATORIO Resultado en SP+36(CD)
-   55 0000003C         ;A PARTIR DE AQUI PODRIAMOS HACER USO DE R4-R7 YA QUE YA
+   52 00000038         
+   53 00000038 EBFFFFFE        bl               matrizNxN_multiplicar_C
+   54 0000003C         
+   55 0000003C         ;RECORDATORIO Resultado en SP+36(CD)
+   56 0000003C         ;A PARTIR DE AQUI PODRIAMOS HACER USO DE R4-R7 YA QUE YA
                         NO NECESITAMOS LAS MATRICES ORIGINALES
-   56 0000003C         
-   57 0000003C         ;TRASPUESTA CD
-   58 0000003C E28D0024        add              r0,SP,#36   ; r0 = @CD
-   59 00000040 E28D1048        add              r1,SP,#72   ; r1 = @Traspuesta
-   60 00000044         
-   61 00000044 EB00002D        bl               Trasponer
-   62 00000048         
-   63 00000048         ;RECORDATORIO Resultado en SP+72(CD TRASPUESTA)
-   64 00000048         
-   65 00000048         ;SUMA AB + CD traspuesta
-   66 00000048 E3A00000        mov              r0,#0
-   67 0000004C E3A04009        LDR              r4,=Tamanio ; r4 = N
-   68 00000050 E1A0500D        mov              r5,SP       ; r5 = AB
-   69 00000054 E28D6048        add              r6,SP,#72   ; r6 = CD traspuest
+   57 0000003C         
+   58 0000003C         ;TRASPUESTA CD
+   59 0000003C E28D0024        add              r0,SP,#36   ; r0 = @CD
+   60 00000040 E28D1048        add              r1,SP,#72   ; r1 = @Traspuesta
+   61 00000044         
+   62 00000044 EB00002D        bl               Trasponer
+   63 00000048         
+   64 00000048         ;RECORDATORIO Resultado en SP+72(CD TRASPUESTA)
+   65 00000048         
+   66 00000048         ;SUMA AB + CD traspuesta
+   67 00000048 E3A00000        mov              r0,#0
+   68 0000004C E3A04009        LDR              r4,=Tamanio ; r4 = N
+   69 00000050 E1A0500D        mov              r5,SP       ; r5 = AB
+   70 00000054 E28D6048        add              r6,SP,#72   ; r6 = CD traspuest
                                                             a
-   70 00000058         
-   71 00000058 E2544001 
+   71 00000058         
+   72 00000058 E2544001 
                        suma    subs             r4,r4,#1    ; r4(N)--
-   72 0000005C 4A000006        bmi              fin_suma
-   73 00000060 E7957104        ldr              r7,[r5,r4,LSL #2] ; r7 = AB[r4]
+   73 0000005C 4A000006        bmi              fin_suma
+   74 00000060 E7957104        ldr              r7,[r5,r4,LSL #2] ; r7 = AB[r4]
                                                             
-   74 00000064 E7968104        ldr              r8,[r6,r4,LSL #2] ; r8 = CD[r4]
+   75 00000064 E7968104        ldr              r8,[r6,r4,LSL #2] ; r8 = CD[r4]
                                                             
-   75 00000068 E0888007        add              r8,r8,r7    ; r8=r8+r7
-   76 0000006C E3580000        cmp              r8,#0
-   77 00000070 12800001        addne            r0,r0,#1    ; r0++ = terminos n
+   76 00000068 E0888007        add              r8,r8,r7    ; r8=r8+r7
+   77 0000006C E3580000        cmp              r8,#0
+   78 00000070 12800001        addne            r0,r0,#1    ; r0++ = terminos n
                                                             o cero++
-   78 00000074 E7898104        str              r8,[r9,r4,LSL #2] ; Resultado_E
+   79 00000074 E7898104        str              r8,[r9,r4,LSL #2] ; Resultado_E
                                                             [r4] = r8
-   79 00000078 EAFFFFF6        b                suma
-   80 0000007C         fin_suma
-   81 0000007C         
-   82 0000007C         ;RESULTADOS NO CERO
-   83 0000007C         
+   80 00000078 EAFFFFF6        b                suma
+   81 0000007C         fin_suma
+   82 0000007C         
+   83 0000007C         ;RESULTADOS NO CERO
    84 0000007C         
-   85 0000007C E91BAFF0        LDMDB            FP, {r4-r10,FP,SP,PC}
-   86 00000080         
+   85 0000007C         
+   86 0000007C E91BAFF0        LDMDB            FP, {r4-r10,FP,SP,PC}
    87 00000080         
    88 00000080         
-   89 00000080         matriz3x3_operar_ARM
-   90 00000080         
 
 
 
 ARM Macro Assembler    Page 3 
 
 
-   91 00000080 E1A0C00D        MOV              IP, SP      ;PROLOGO
-   92 00000084 E92DDFF0        STMDB            SP!, {r4-r10,FP,IP,LR,PC}
-   93 00000088 E24CB004        SUB              FP, IP, #4
-   94 0000008C E24DD06C        SUB              SP, #108    ;Hacemos espacio en
+   89 00000080         
+   90 00000080         
+   91 00000080         ; Función que recibe 4 matrices como parámetro, calcul
+                       a Resultado = A*B + transpuesta(C*D) y devuelve el núme
+                       ro de términos distintos de cero en el Resultado
+   92 00000080         ; ayudándose de la función matrizNxN_multiplicar que c
+                       alcula A*B y C*D de NxN y de la función Transponer que 
+                       calcula transpuesta(C*D)
+   93 00000080         
+   94 00000080         
+   95 00000080         
+   96 00000080         
+   97 00000080         matriz3x3_operar_ARM
+   98 00000080         
+   99 00000080 E1A0C00D        MOV              IP, SP      ;PROLOGO
+  100 00000084 E92DDFF0        STMDB            SP!, {r4-r10,FP,IP,LR,PC}
+  101 00000088 E24CB004        SUB              FP, IP, #4
+  102 0000008C E24DD06C        SUB              SP, #108    ;Hacemos espacio en
                                                              la pila para las v
                                                             ariables locales, 2
                                                              matrices 3x3 108=9
                                                             *4*3
-   95 00000090         
-   96 00000090         
-   97 00000090         
-   98 00000090 E1A04000        MOV              r4,r0       ; r4 = @Test_a
-   99 00000094 E1A05001        MOV              r5,r1       ; r5 = @Test_b
-  100 00000098 E1A06002        MOV              r6,r2       ; r6 = @Test_c
-  101 0000009C E1A07003        MOV              r7,r3       ; r7 = @Test_d
-  102 000000A0 E59C9000        LDR              r9,[IP]     ; r9 = IP = @Result
+  103 00000090         
+  104 00000090         
+  105 00000090         
+  106 00000090 E1A04000        MOV              r4,r0       ; r4 = @Test_a
+  107 00000094 E1A05001        MOV              r5,r1       ; r5 = @Test_b
+  108 00000098 E1A06002        MOV              r6,r2       ; r6 = @Test_c
+  109 0000009C E1A07003        MOV              r7,r3       ; r7 = @Test_d
+  110 000000A0 E59C9000        LDR              r9,[IP]     ; r9 = IP = @Result
                                                             ados_E
-  103 000000A4         
-  104 000000A4 E1A0200D        MOV              r2,SP       ; r2 =@AB r2 apunta
+  111 000000A4         
+  112 000000A4 E1A0200D        MOV              r2,SP       ; r2 =@AB r2 apunta
                                                              a la memoria que h
                                                             emos hecho para las
                                                              variables locales,
                                                              en concreto a dond
                                                             e apunta sp
-  105 000000A8         
-  106 000000A8         
-  107 000000A8 EB000026        bl               matrizNxN_multiplicar
-  108 000000AC         
-  109 000000AC         ;RECORDATORIO Resultado en SP(AB)
-  110 000000AC         
-  111 000000AC         ;PONEMOS LOS PARAMETROS PARA LLAMAR A MULTPLICAR_C OTRA 
+  113 000000A8         
+  114 000000A8         
+  115 000000A8 EB000026        bl               matrizNxN_multiplicar
+  116 000000AC         
+  117 000000AC         ;RECORDATORIO Resultado en SP(AB)
+  118 000000AC         
+  119 000000AC         ;PONEMOS LOS PARAMETROS PARA LLAMAR A MULTPLICAR_C OTRA 
                        VEZ PARA HACER C*D
-  112 000000AC         
-  113 000000AC E1A00006        mov              r0,r6       ; r0 = @Test_c
-  114 000000B0 E1A01007        mov              r1,r7       ; r1 = @Test_d
-  115 000000B4 E28D2024        ADD              r2,SP,#36   ; r2 =@CD r2 apunta
+  120 000000AC         
+  121 000000AC E1A00006        mov              r0,r6       ; r0 = @Test_c
+  122 000000B0 E1A01007        mov              r1,r7       ; r1 = @Test_d
+  123 000000B4 E28D2024        ADD              r2,SP,#36   ; r2 =@CD r2 apunta
                                                              a la memoria que h
                                                             emos hecho para las
                                                              variables locales,
                                                              en concreto a dond
                                                             e apunta sp+36 que 
                                                             lo que AB
-  116 000000B8         
-  117 000000B8 EB000022        bl               matrizNxN_multiplicar
-  118 000000BC         
-  119 000000BC         ;RECORDATORIO Resultado en SP+36(CD)
-  120 000000BC         ;A PARTIR DE AQUI PODRIAMOS HACER USO DE R4-R7 YA QUE YA
-                        NO NECESITAMOS LAS MATRICES ORIGINALES
-  121 000000BC         
-  122 000000BC         ;TRASPUESTA CD
-  123 000000BC E28D0024        add              r0,SP,#36   ; r0 = @CD
-  124 000000C0 E28D1048        add              r1,SP,#72   ; r1 = @Traspuesta
-  125 000000C4         
-  126 000000C4 EB00000D        bl               Trasponer
-  127 000000C8         
-  128 000000C8         ;RECORDATORIO Resultado en SP+72(CD TRASPUESTA)
-  129 000000C8         
-  130 000000C8         ;SUMA AB + CD traspuesta
-  131 000000C8 E3A00000        mov              r0,#0
+  124 000000B8         
+  125 000000B8 EB000022        bl               matrizNxN_multiplicar
+  126 000000BC         
 
 
 
 ARM Macro Assembler    Page 4 
 
 
-  132 000000CC E3A04009        LDR              r4,=Tamanio ; r4 = N
-  133 000000D0 E1A0500D        mov              r5,SP       ; r5 = AB
-  134 000000D4 E28D6048        add              r6,SP,#72   ; r6 = CD traspuest
+  127 000000BC         ;RECORDATORIO Resultado en SP+36(CD)
+  128 000000BC         ;A PARTIR DE AQUI PODRIAMOS HACER USO DE R4-R7 YA QUE YA
+                        NO NECESITAMOS LAS MATRICES ORIGINALES
+  129 000000BC         
+  130 000000BC         ;TRASPUESTA CD
+  131 000000BC E28D0024        add              r0,SP,#36   ; r0 = @CD
+  132 000000C0 E28D1048        add              r1,SP,#72   ; r1 = @Traspuesta
+  133 000000C4         
+  134 000000C4 EB00000D        bl               Trasponer
+  135 000000C8         
+  136 000000C8         ;RECORDATORIO Resultado en SP+72(CD TRASPUESTA)
+  137 000000C8         
+  138 000000C8         ;SUMA AB + CD traspuesta
+  139 000000C8 E3A00000        mov              r0,#0
+  140 000000CC E3A04009        LDR              r4,=Tamanio ; r4 = N
+  141 000000D0 E1A0500D        mov              r5,SP       ; r5 = AB
+  142 000000D4 E28D6048        add              r6,SP,#72   ; r6 = CD traspuest
                                                             a
-  135 000000D8         
-  136 000000D8 E2544001 
+  143 000000D8         
+  144 000000D8 E2544001 
                        suma_ARM
                                subs             r4,r4,#1    ; r4(N)--
-  137 000000DC 4A000006        bmi              fin_suma_ARM
-  138 000000E0 E7957104        ldr              r7,[r5,r4,LSL #2] ; r7 = AB[r4]
+  145 000000DC 4A000006        bmi              fin_suma_ARM
+  146 000000E0 E7957104        ldr              r7,[r5,r4,LSL #2] ; r7 = AB[r4]
                                                             
-  139 000000E4 E7968104        ldr              r8,[r6,r4,LSL #2] ; r8 = CD[r4]
+  147 000000E4 E7968104        ldr              r8,[r6,r4,LSL #2] ; r8 = CD[r4]
                                                             
-  140 000000E8 E0888007        add              r8,r8,r7    ; r8=r8+r7
-  141 000000EC E3580000        cmp              r8,#0
-  142 000000F0 12800001        addne            r0,r0,#1    ; r0++ = terminos n
+  148 000000E8 E0888007        add              r8,r8,r7    ; r8=r8+r7
+  149 000000EC E3580000        cmp              r8,#0
+  150 000000F0 12800001        addne            r0,r0,#1    ; r0++ = terminos n
                                                             o cero++
-  143 000000F4 E7898104        str              r8,[r9,r4,LSL #2] ; Resultado_E
+  151 000000F4 E7898104        str              r8,[r9,r4,LSL #2] ; Resultado_E
                                                             [r4] = r8
-  144 000000F8 EAFFFFF6        b                suma_ARM
-  145 000000FC         fin_suma_ARM
-  146 000000FC         
-  147 000000FC         ;RESULTADOS NO CERO
-  148 000000FC         
-  149 000000FC         
-  150 000000FC E91BAFF0        LDMDB            FP, {r4-r10,FP,SP,PC}
-  151 00000100         
-  152 00000100         
-  153 00000100         
-  154 00000100         ;-------------------------------------------------------
+  152 000000F8 EAFFFFF6        b                suma_ARM
+  153 000000FC         fin_suma_ARM
+  154 000000FC         
+  155 000000FC         ;RESULTADOS NO CERO
+  156 000000FC         
+  157 000000FC         
+  158 000000FC E91BAFF0        LDMDB            FP, {r4-r10,FP,SP,PC}
+  159 00000100         
+  160 00000100         
+  161 00000100         
+  162 00000100         ;-------------------------------------------------------
                        ------------SUBRUTINAS----------------------------------
                        ------------------------------------
-  155 00000100         
-  156 00000100         
-  157 00000100         
-  158 00000100         
-  159 00000100         Trasponer
-  160 00000100         
-  161 00000100 E1A0C00D        MOV              IP, SP      ;PROLOGO
-  162 00000104 E92DDFF0        STMDB            SP!, {r4-r10,FP,IP,LR,PC}
-  163 00000108 E24CB004        SUB              FP, IP, #4
-  164 0000010C         
-  165 0000010C         
-  166 0000010C         
-  167 0000010C         
-  168 0000010C E3A08003        LDR              r8, =N      ; r8 = N
-  169 00000110 E1A06008        MOV              r6,r8       ; r6 = i
-  170 00000114         
-  171 00000114         bcl_i
-  172 00000114 E2566001        subs             r6,r6,#1    ; i < N?
-  173 00000118 4A000009        bmi              epilogo
-  174 0000011C E1A07008        mov              r7,r8       ; r7 = j
-  175 00000120         
-  176 00000120         bcl_j
-  177 00000120         
-  178 00000120 E2577001        subs             r7,r7,#1    ; j < N?
-  179 00000124 4AFFFFFA        bmi              bcl_i
-  180 00000128 E0090896        mul              r9,r6,r8    ; r9 = i*N = r9
-  181 0000012C E0899007        add              r9,r9,r7    ; r9 = i*N+j
+  163 00000100         
+  164 00000100         ; Procedimiento que recibe una matriz de tipo entero com
+                       o parámetro y carga en matriz Traspuesta el resultado 
+  165 00000100         ; de trasponer la matriz pasada como parámetro.
+  166 00000100         ; En r8 se utiliza la N, en r5 el índice i, en r7 el í
+                       ndice j,
+  167 00000100         
+  168 00000100         Trasponer
+  169 00000100         
+  170 00000100 E1A0C00D        MOV              IP, SP      ;PROLOGO
+  171 00000104 E92DDFF0        STMDB            SP!, {r4-r10,FP,IP,LR,PC}
+  172 00000108 E24CB004        SUB              FP, IP, #4
+  173 0000010C         
 
 
 
 ARM Macro Assembler    Page 5 
 
 
-  182 00000130 E790A109        ldr              r10,[r0,r9, LSL#2] 
+  174 0000010C         
+  175 0000010C         
+  176 0000010C         
+  177 0000010C E3A08003        LDR              r8, =N      ; r8 = N
+  178 00000110 E1A06008        MOV              r6,r8       ; r6 = i
+  179 00000114         
+  180 00000114         bcl_i
+  181 00000114 E2566001        subs             r6,r6,#1    ; i < N?
+  182 00000118 4A000009        bmi              epilogo
+  183 0000011C E1A07008        mov              r7,r8       ; r7 = j
+  184 00000120         
+  185 00000120         bcl_j
+  186 00000120         
+  187 00000120 E2577001        subs             r7,r7,#1    ; j < N?
+  188 00000124 4AFFFFFA        bmi              bcl_i
+  189 00000128 E0090896        mul              r9,r6,r8    ; r9 = i*N = r9
+  190 0000012C E0899007        add              r9,r9,r7    ; r9 = i*N+j
+  191 00000130 E790A109        ldr              r10,[r0,r9, LSL#2] 
                                                             ; r10 = CD[i][j]
-  183 00000134         
-  184 00000134 E0090897        mul              r9,r7,r8    ; r9 = jN
-  185 00000138 E0899006        add              r9,r9,r6    ; r9 = jN+i
-  186 0000013C         
-  187 0000013C E781A109        str              r10,[r1,r9, LSL #2] ; transpues
+  192 00000134         
+  193 00000134 E0090897        mul              r9,r7,r8    ; r9 = jN
+  194 00000138 E0899006        add              r9,r9,r6    ; r9 = jN+i
+  195 0000013C         
+  196 0000013C E781A109        str              r10,[r1,r9, LSL #2] ; transpues
                                                             ta[j][i] = matriz [
                                                             i][j]
-  188 00000140         
-  189 00000140 EAFFFFF6        b                bcl_j
-  190 00000144         
-  191 00000144         
-  192 00000144 E91BAFF0 
+  197 00000140         
+  198 00000140 EAFFFFF6        b                bcl_j
+  199 00000144         
+  200 00000144         
+  201 00000144 E91BAFF0 
                        epilogo LDMDB            FP, {r4-r10,FP,SP,PC}
-  193 00000148         
-  194 00000148         
-  195 00000148         
-  196 00000148         matrizNxN_multiplicar
-  197 00000148         
-  198 00000148 E1A0C00D        MOV              IP, SP      ;PROLOGO
-  199 0000014C E92DDFF0        STMDB            SP!, {r4-r10,FP,IP,LR,PC}
-  200 00000150 E24CB004        SUB              FP, IP, #4
-  201 00000154 E24DD004        SUB              SP,#4
-  202 00000158         
-  203 00000158         ; r0 = @A
-  204 00000158         ; r1 = @B
-  205 00000158         ; r2 = @Resultado
-  206 00000158         ; SP = i
-  207 00000158         ; SP+4= j
-  208 00000158         ; SP+8= k
-  209 00000158         
-  210 00000158 E3A04003        LDR              r4,=N       ; r4 = i
-  211 0000015C         
-  212 0000015C         bucle_i
-  213 0000015C E2544001        subs             r4,r4,#1    ; i--
-  214 00000160 4A000016        bmi              epilogo2
-  215 00000164 E3A05003        LDR              r5,=N       ; r5 = j
-  216 00000168         
-  217 00000168         bucle_j
-  218 00000168 E2555001        subs             r5,r5,#1    ; j--
-  219 0000016C 4AFFFFFA        bmi              bucle_i
-  220 00000170         ; j < 0?
-  221 00000170 E3A07003        LDR              r7,=N
-  222 00000174 E0285794        mla              r8,r4,r7,r5 ; r8  = i*N + j =[i
-                                                            ][j]
-  223 00000178 E3A09000        mov              r9,#0
-  224 0000017C E7829108        STR              r9,[r2,r8,LSL#2] ; Resultado[i]
-                                                            [j] = 0 inicializac
-                                                            ión del elemento
-  225 00000180 E58D8000        STR              r8,[SP]     ; r8 como variable 
-                                                            local
-  226 00000184         
-  227 00000184 E3A06003        LDR              r6,=N       ; r6 = k
-  228 00000188         
-  229 00000188 E2566001 
-                       bucle_k subs             r6,r6,#1    ; k < N?
-  230 0000018C 4AFFFFF5        bmi              bucle_j
-  231 00000190         
+  202 00000148         
+  203 00000148         
+  204 00000148         
+  205 00000148         ; Procedimiento que recibe dos matrices de tipo entero c
+                       omo parámetro y carga en la matriz Resultado
+  206 00000148         ; la matriz originada de realizar la multiplicación de 
+                       las dos matrices recibidas como parámetro.
+  207 00000148         ; En r4 se utiliza el índice i, en r5 el índice j, en 
+                       r6 EL índice k 
+  208 00000148         
+  209 00000148         
+  210 00000148         matrizNxN_multiplicar
+  211 00000148         
+  212 00000148 E1A0C00D        MOV              IP, SP      ;PROLOGO
+  213 0000014C E92DDFF0        STMDB            SP!, {r4-r10,FP,IP,LR,PC}
+  214 00000150 E24CB004        SUB              FP, IP, #4
+  215 00000154 E24DD004        SUB              SP,#4
+  216 00000158         
+  217 00000158         ; r0 = @A
+  218 00000158         ; r1 = @B
+  219 00000158         ; r2 = @Resultado
+  220 00000158         ; SP = i
+  221 00000158         ; SP+4= j
+  222 00000158         ; SP+8= k
+  223 00000158         
+  224 00000158 E3A04003        LDR              r4,=N       ; r4 = i
+  225 0000015C         
 
 
 
 ARM Macro Assembler    Page 6 
 
 
-  232 00000190         ; A[i][k] y B[k][j]
-  233 00000190         
-  234 00000190 E3A07003        LDR              r7,=N       ; r7  = N
-  235 00000194 E0286794        mla              r8,r4,r7,r6 ; r8  = i*N + K =[i
+  226 0000015C         bucle_i
+  227 0000015C E2544001        subs             r4,r4,#1    ; i--
+  228 00000160 4A000016        bmi              epilogo2
+  229 00000164 E3A05003        LDR              r5,=N       ; r5 = j
+  230 00000168         
+  231 00000168         bucle_j
+  232 00000168 E2555001        subs             r5,r5,#1    ; j--
+  233 0000016C 4AFFFFFA        bmi              bucle_i
+  234 00000170         ; j < 0?
+  235 00000170 E3A07003        LDR              r7,=N
+  236 00000174 E0285794        mla              r8,r4,r7,r5 ; r8  = i*N + j =[i
+                                                            ][j]
+  237 00000178 E3A09000        mov              r9,#0
+  238 0000017C E7829108        STR              r9,[r2,r8,LSL#2] ; Resultado[i]
+                                                            [j] = 0 inicializac
+                                                            ión del elemento
+  239 00000180 E58D8000        STR              r8,[SP]     ; r8 como variable 
+                                                            local
+  240 00000184         
+  241 00000184 E3A06003        LDR              r6,=N       ; r6 = k
+  242 00000188         
+  243 00000188 E2566001 
+                       bucle_k subs             r6,r6,#1    ; k < N?
+  244 0000018C 4AFFFFF5        bmi              bucle_j
+  245 00000190         
+  246 00000190         ; A[i][k] y B[k][j]
+  247 00000190         
+  248 00000190 E3A07003        LDR              r7,=N       ; r7  = N
+  249 00000194 E0286794        mla              r8,r4,r7,r6 ; r8  = i*N + K =[i
                                                             ][k]
-  236 00000198 E0295796        mla              r9,r6,r7,r5 ; r9  = k*N + j =[k
+  250 00000198 E0295796        mla              r9,r6,r7,r5 ; r9  = k*N + j =[k
                                                             ][j]
-  237 0000019C         
-  238 0000019C E790A108        LDR              r10,[r0,r8,LSL#2] 
+  251 0000019C         
+  252 0000019C E790A108        LDR              r10,[r0,r8,LSL#2] 
                                                             ; r10 = A[i][k]
-  239 000001A0 E1A0800A        MOV              r8,r10      ; r8  = A[i][k]
-  240 000001A4 E791A109        LDR              r10,[r1,r9,LSL#2] 
+  253 000001A0 E1A0800A        MOV              r8,r10      ; r8  = A[i][k]
+  254 000001A4 E791A109        LDR              r10,[r1,r9,LSL#2] 
                                                             ; r10 = B[k][j]
-  241 000001A8         
-  242 000001A8         ; A[i][k] * B[k][j]
-  243 000001A8         
-  244 000001A8 E0090A98        mul              r9,r8,r10   ; r9  = A[i][k] * B
+  255 000001A8         
+  256 000001A8         ; A[i][k] * B[k][j]
+  257 000001A8         
+  258 000001A8 E0090A98        mul              r9,r8,r10   ; r9  = A[i][k] * B
                                                             [k][j]
-  245 000001AC         
-  246 000001AC         ;Resultado [i][j] = A[i][k] * B[k][j]
-  247 000001AC         
-  248 000001AC E59D8000        LDR              r8,[SP]     ; r8  = i*N + j =[i
+  259 000001AC         
+  260 000001AC         ;Resultado [i][j] = A[i][k] * B[k][j]
+  261 000001AC         
+  262 000001AC E59D8000        LDR              r8,[SP]     ; r8  = i*N + j =[i
                                                             ][j]
-  249 000001B0 E7927108        LDR              r7,[r2,r8,LSL#2] ; r7 = Resulta
+  263 000001B0 E7927108        LDR              r7,[r2,r8,LSL#2] ; r7 = Resulta
                                                             do[i][j]
-  250 000001B4 E089A007        add              r10,r9,r7   ; r10 = Resultado[i
+  264 000001B4 E089A007        add              r10,r9,r7   ; r10 = Resultado[i
                                                             ][j] + A[i][k] * B[
                                                             k][j]
-  251 000001B8 E782A108        STR              r10,[r2,r8,LSL#2] ; Resultado[i
+  265 000001B8 E782A108        STR              r10,[r2,r8,LSL#2] ; Resultado[i
                                                             ]][j] = Resultado[i
                                                             ][j] + A[i][k] * B[
                                                             k][j]
-  252 000001BC         
-  253 000001BC         
-  254 000001BC EAFFFFF1        b                bucle_k
-  255 000001C0         
-  256 000001C0         
-  257 000001C0         
-  258 000001C0         
-  259 000001C0 E91BAFF0 
+  266 000001BC         
+  267 000001BC         
+
+
+
+ARM Macro Assembler    Page 7 
+
+
+  268 000001BC EAFFFFF1        b                bucle_k
+  269 000001C0         
+  270 000001C0         
+  271 000001C0         
+  272 000001C0         
+  273 000001C0 E91BAFF0 
                        epilogo2
                                LDMDB            FP, {r4-r10,FP,SP,PC}
-  260 000001C4         
-  261 000001C4         
-  262 000001C4         
-  263 000001C4                 END
+  274 000001C4         
+  275 000001C4         
+  276 000001C4         
+  277 000001C4                 END
 Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
 bjects\operar.d -o.\objects\operar.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM
 \CMSIS\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1" --prede
@@ -404,50 +435,50 @@ Trasponer 00000100
 
 Symbol: Trasponer
    Definitions
-      At line 159 in file operar.s
+      At line 168 in file operar.s
    Uses
-      At line 61 in file operar.s
-      At line 126 in file operar.s
+      At line 62 in file operar.s
+      At line 134 in file operar.s
 
 bcl_i 00000114
 
 Symbol: bcl_i
    Definitions
-      At line 171 in file operar.s
+      At line 180 in file operar.s
    Uses
-      At line 179 in file operar.s
+      At line 188 in file operar.s
 Comment: bcl_i used once
 bcl_j 00000120
 
 Symbol: bcl_j
    Definitions
-      At line 176 in file operar.s
+      At line 185 in file operar.s
    Uses
-      At line 189 in file operar.s
+      At line 198 in file operar.s
 Comment: bcl_j used once
 bucle_i 0000015C
 
 Symbol: bucle_i
    Definitions
-      At line 212 in file operar.s
+      At line 226 in file operar.s
    Uses
-      At line 219 in file operar.s
+      At line 233 in file operar.s
 Comment: bucle_i used once
 bucle_j 00000168
 
 Symbol: bucle_j
    Definitions
-      At line 217 in file operar.s
+      At line 231 in file operar.s
    Uses
-      At line 230 in file operar.s
+      At line 244 in file operar.s
 Comment: bucle_j used once
 bucle_k 00000188
 
 Symbol: bucle_k
    Definitions
-      At line 229 in file operar.s
+      At line 243 in file operar.s
    Uses
-      At line 254 in file operar.s
+      At line 268 in file operar.s
 Comment: bucle_k used once
 codigo 00000000
 
@@ -467,39 +498,39 @@ Relocatable symbols
 
 Symbol: epilogo
    Definitions
-      At line 192 in file operar.s
+      At line 201 in file operar.s
    Uses
-      At line 173 in file operar.s
+      At line 182 in file operar.s
 Comment: epilogo used once
 epilogo2 000001C0
 
 Symbol: epilogo2
    Definitions
-      At line 259 in file operar.s
+      At line 273 in file operar.s
    Uses
-      At line 214 in file operar.s
+      At line 228 in file operar.s
 Comment: epilogo2 used once
 fin_suma 0000007C
 
 Symbol: fin_suma
    Definitions
-      At line 80 in file operar.s
+      At line 81 in file operar.s
    Uses
-      At line 72 in file operar.s
+      At line 73 in file operar.s
 Comment: fin_suma used once
 fin_suma_ARM 000000FC
 
 Symbol: fin_suma_ARM
    Definitions
-      At line 145 in file operar.s
+      At line 153 in file operar.s
    Uses
-      At line 137 in file operar.s
+      At line 145 in file operar.s
 Comment: fin_suma_ARM used once
 matriz3x3_operar_ARM 00000080
 
 Symbol: matriz3x3_operar_ARM
    Definitions
-      At line 89 in file operar.s
+      At line 97 in file operar.s
    Uses
       At line 13 in file operar.s
 Comment: matriz3x3_operar_ARM used once
@@ -507,7 +538,7 @@ matriz3x3_operar_ARM_C 00000000
 
 Symbol: matriz3x3_operar_ARM_C
    Definitions
-      At line 20 in file operar.s
+      At line 23 in file operar.s
    Uses
       At line 12 in file operar.s
 Comment: matriz3x3_operar_ARM_C used once
@@ -515,10 +546,10 @@ matrizNxN_multiplicar 00000148
 
 Symbol: matrizNxN_multiplicar
    Definitions
-      At line 196 in file operar.s
+      At line 210 in file operar.s
    Uses
-      At line 107 in file operar.s
-      At line 117 in file operar.s
+      At line 115 in file operar.s
+      At line 125 in file operar.s
 
 suma 00000058
 
@@ -530,17 +561,17 @@ Symbol: suma
 ARM Macro Assembler    Page 3 Alphabetic symbol ordering
 Relocatable symbols
 
-      At line 71 in file operar.s
+      At line 72 in file operar.s
    Uses
-      At line 79 in file operar.s
+      At line 80 in file operar.s
 Comment: suma used once
 suma_ARM 000000D8
 
 Symbol: suma_ARM
    Definitions
-      At line 136 in file operar.s
-   Uses
       At line 144 in file operar.s
+   Uses
+      At line 152 in file operar.s
 Comment: suma_ARM used once
 16 symbols
 
@@ -557,12 +588,12 @@ Symbol: N
    Uses
       At line 5 in file operar.s
       At line 5 in file operar.s
-      At line 168 in file operar.s
-      At line 210 in file operar.s
-      At line 215 in file operar.s
-      At line 221 in file operar.s
-      At line 227 in file operar.s
-      At line 234 in file operar.s
+      At line 177 in file operar.s
+      At line 224 in file operar.s
+      At line 229 in file operar.s
+      At line 235 in file operar.s
+      At line 241 in file operar.s
+      At line 248 in file operar.s
 
 Tamanio 00000009
 
@@ -570,8 +601,8 @@ Symbol: Tamanio
    Definitions
       At line 5 in file operar.s
    Uses
-      At line 67 in file operar.s
-      At line 132 in file operar.s
+      At line 68 in file operar.s
+      At line 140 in file operar.s
 
 2 symbols
 
@@ -586,8 +617,8 @@ Symbol: matrizNxN_multiplicar_C
    Definitions
       At line 14 in file operar.s
    Uses
-      At line 42 in file operar.s
-      At line 52 in file operar.s
+      At line 43 in file operar.s
+      At line 53 in file operar.s
 
 1 symbol
 352 symbols in table

@@ -11,6 +11,9 @@ Tamanio		EQU N*N
 		EXPORT matriz3x3_operar_THB
 		PRESERVE8 {TRUE}
 		
+; Función que recibe 4 matrices como parámetro, calcula Resultado = A*B + transpuesta(C*D) y devuelve el número de términos distintos de cero en el Resultado
+; ayudándose de la función Multiplicar que calcula A*B y C*D de NxN y de la función Transponer que calcula transpuesta(C*D)	
+		
 		ARM
 matriz3x3_operar_THB
 
@@ -76,11 +79,14 @@ fin_suma
 			LDMDB FP, {r4-r10,FP,SP,PC}	
 
 ;-------------------------------------------------------------------SUBRUTINAS----------------------------------------------------------------------
-			
+; Procedimiento que recibe una matriz de tipo entero como parámetro y carga en matriz Traspuesta el resultado 
+; de trasponer la matriz pasada como parámetro.
+; En r2 se utiliza la N, en r3 el índice i, en r4 el índice j, en r5 transpuesta[j][i] y en r6 CD[i][j].
+		
 		THUMB
 Trasponer	
 			MOV IP,lr	
-			STMDB R13!, {r3-r6}				
+			STMDB R13!, {r4-r6}				
 			
 			LDR r2, =N							; r2 = N
 			MOVS r3,r2							; r3 = i
@@ -110,18 +116,21 @@ bcl_j
 			
 epilogo 	
 			MOV lr,IP
-			LDMIA R13!, {r3-r6}
+			LDMIA R13!, {r4-r6}
 			bx lr
 			 
 			 
 			 
 			 
 ;-------------------------------------------------------------------------------------										
+; Procedimiento que recibe dos matrices de tipo entero como parámetro y carga en la matriz Resultado
+; la matriz originada de realizar la multiplicación de las dos matrices recibidas como parámetro.
+; En r4 se utiliza el índice i, en r5 el índice j, en r6 EL índice k 
 
 		THUMB
 Multiplicar	
 			MOV IP,lr							; Guardamos en IP el valor del lr
-			STMDB R13!, {r0-r7}					; No se guarda lr porque luego volvemos con bx y no con "pop" pc
+			STMDB R13!, {r4-r7}					; No se guarda lr porque luego volvemos con bx y no con "pop" pc
 												
 			; r0 = @A
 			; r1 = @B
@@ -190,7 +199,7 @@ bucle_k		subs r6,r6,#1						; k < N?
 				
 epilogo2 
 			MOV lr,IP							; Recuperamos el valor de lr 
-			LDMIA R13!,{r0-r7}					; Desapilamos y restauramos la pila				
+			LDMIA R13!,{r4-r7}					; Desapilamos y restauramos la pila				
 			bx lr								; salto con cambio de modo, apunte -> igual se puede poner ip en el salto
 		
 	END
