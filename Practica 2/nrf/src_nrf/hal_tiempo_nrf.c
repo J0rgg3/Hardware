@@ -34,10 +34,9 @@ uint32_t hal_tiempo_iniciar_tick() {
 		NRF_TIMER0->MODE = TIMER_MODE_MODE_Timer;         			  // Modo temporizador
 		NRF_TIMER0->CC[0] = counter_0_value;									   // T0MR0 = MAX_COUNTER_VALUE
 	
-		NRF_TIMER0->INTENSET = TIMER_INTENSET_COMPARE0_Msk;  	 // Habilitar interrupción en coincidencia con CC[0]
-		NRF_TIMER0->SHORTS = TIMER_SHORTS_COMPARE0_CLEAR_Msk; // Reiniciar el temporizador en coincidencia con CC[0]
+		NRF_TIMER0->INTENSET = TIMER_INTENSET_COMPARE0_Msk;  	 // Habilitar interrupción cuando coincida con CC[0]
+		NRF_TIMER0->SHORTS = TIMER_SHORTS_COMPARE0_CLEAR_Msk; // Reiniciar el temporizador cuando coincida con CC[0]
 	
-		
 	
 		NVIC_EnableIRQ(TIMER0_IRQn);											// Enable Timer0 Interrupt
 
@@ -51,7 +50,7 @@ uint32_t hal_tiempo_iniciar_tick() {
  */
 uint64_t hal_tiempo_actual_tick() { 
     uint64_t time;
-    time = ((MAX_COUNTER_VALUE + 1) * timer0_int_count) + (uint64_t)NRF_TIMER0->CC[0]; 
+    time = (( counter_0_value + 1) * timer0_int_count) + (uint64_t)NRF_TIMER0->CC[0]; 
     return time;
 }
 
