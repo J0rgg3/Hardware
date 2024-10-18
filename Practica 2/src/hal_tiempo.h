@@ -7,6 +7,8 @@
 
 #include <stdint.h>
 
+void timer0_ISR_handler (void) __irq ;
+
 /**
  * configura e inicializa la cuenta de tiempo en ticks del hardware y
  * devuelve la constante hal_ticks2us,

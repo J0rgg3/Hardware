@@ -34,7 +34,7 @@ uint32_t hal_tiempo_iniciar_tick() {
 	timer0_int_count = 0;	
 	T0MR0 = MAX_COUNTER_VALUE;		// Si TC = 1 interrupcion cada us
   T0MCR = 3;              			// Generates an interrupt and resets the count when the value of MR0 is reached
-	
+
   // configuration of the IRQ slot number 0 of the VIC for Timer 0 Interrupt
 	VICVectAddr0 = (unsigned long)timer0_ISR;    // set interrupt vector in 0
   // 0x20 bit 5 enables vectored IRQs. 
@@ -42,8 +42,8 @@ uint32_t hal_tiempo_iniciar_tick() {
 	VICVectCntl0 = 0x20 | 4;                   
   VICIntEnable = VICIntEnable | 0x00000010;       // Enable Timer0 Interrupt
 
-	T0TCR = 2; // Reincia los contadores
-  T0TCR = 1;  // Empieza la cuenta
+	TOTCR = 2; //Reinicia los contadores
+ 	T0TCR = 1;  // Empieza la cuenta
 	
 	return HAL_TICKS2US;  		//devuelve el factor conversion de ticks a microsegundos de este hardware
 }

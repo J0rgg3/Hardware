@@ -9,6 +9,7 @@ Section Cross References
     main.o(i.blink_v2) refers to drv_tiempo.o(i.drv_tiempo_actual_ms) for drv_tiempo_actual_ms
     main.o(i.blink_v2) refers to drv_tiempo.o(i.drv_tiempo_esperar_hasta_ms) for drv_tiempo_esperar_hasta_ms
     main.o(i.blink_v2) refers to drv_leds.o(i.drv_led_conmutar) for drv_led_conmutar
+    main.o(i.main) refers to drv_tiempo.o(i.drv_tiempo_iniciar) for drv_tiempo_iniciar
     main.o(i.main) refers to hal_gpio_nrf.o(i.hal_gpio_iniciar) for hal_gpio_iniciar
     main.o(i.main) refers to drv_leds.o(i.drv_leds_iniciar) for drv_leds_iniciar
     main.o(i.main) refers to drv_leds.o(i.drv_led_encender) for drv_led_encender
@@ -25,23 +26,21 @@ Section Cross References
     drv_leds.o(i.drv_leds_iniciar) refers to drv_leds.o(.constdata) for led_list
     drv_tiempo.o(i.drv_tiempo_actual_ms) refers to hal_tiempo_nrf.o(i.hal_tiempo_actual_tick) for hal_tiempo_actual_tick
     drv_tiempo.o(i.drv_tiempo_actual_ms) refers to uldiv.o(.text) for __aeabi_uldivmod
+    drv_tiempo.o(i.drv_tiempo_actual_ms) refers to drv_tiempo.o(.data) for TICKS2US
     drv_tiempo.o(i.drv_tiempo_actual_us) refers to hal_tiempo_nrf.o(i.hal_tiempo_actual_tick) for hal_tiempo_actual_tick
     drv_tiempo.o(i.drv_tiempo_actual_us) refers to uldiv.o(.text) for __aeabi_uldivmod
+    drv_tiempo.o(i.drv_tiempo_actual_us) refers to drv_tiempo.o(.data) for TICKS2US
     drv_tiempo.o(i.drv_tiempo_esperar_hasta_ms) refers to drv_tiempo.o(i.drv_tiempo_actual_ms) for drv_tiempo_actual_ms
     drv_tiempo.o(i.drv_tiempo_esperar_hasta_ms) refers to drv_tiempo.o(i.drv_tiempo_esperar_ms) for drv_tiempo_esperar_ms
     drv_tiempo.o(i.drv_tiempo_esperar_ms) refers to drv_tiempo.o(i.drv_tiempo_actual_ms) for drv_tiempo_actual_ms
     drv_tiempo.o(i.drv_tiempo_iniciar) refers to hal_tiempo_nrf.o(i.hal_tiempo_iniciar_tick) for hal_tiempo_iniciar_tick
+    drv_tiempo.o(i.drv_tiempo_iniciar) refers to drv_tiempo.o(.data) for TICKS2US
     hal_tiempo_nrf.o(i.TIMER0_IRQHandler) refers to hal_tiempo_nrf.o(.data) for timer0_int_count
-    hal_tiempo_nrf.o(i.TIMER1_IRQHandler) refers to hal_tiempo_nrf.o(.data) for f_callback
     hal_tiempo_nrf.o(i.hal_tiempo_actual_tick) refers to hal_tiempo_nrf.o(.data) for timer0_int_count
-    hal_tiempo_nrf.o(i.hal_tiempo_iniciar_tick) refers to hal_tiempo_nrf.o(i.__NVIC_EnableIRQ) for __NVIC_EnableIRQ
     hal_tiempo_nrf.o(i.hal_tiempo_iniciar_tick) refers to hal_tiempo_nrf.o(.data) for timer0_int_count
-    hal_tiempo_nrf.o(i.hal_tiempo_reloj_periodico_tick) refers to hal_tiempo_nrf.o(i.__NVIC_EnableIRQ) for __NVIC_EnableIRQ
-    hal_tiempo_nrf.o(i.hal_tiempo_reloj_periodico_tick) refers to hal_tiempo_nrf.o(.data) for f_callback
     arm_startup_nrf52840.o(RESET) refers to arm_startup_nrf52840.o(STACK) for __initial_sp
     arm_startup_nrf52840.o(RESET) refers to arm_startup_nrf52840.o(.text) for Reset_Handler
     arm_startup_nrf52840.o(RESET) refers to hal_tiempo_nrf.o(i.TIMER0_IRQHandler) for TIMER0_IRQHandler
-    arm_startup_nrf52840.o(RESET) refers to hal_tiempo_nrf.o(i.TIMER1_IRQHandler) for TIMER1_IRQHandler
     arm_startup_nrf52840.o(.text) refers to system_nrf52.o(i.SystemInit) for SystemInit
     arm_startup_nrf52840.o(.text) refers to entry.o(.ARM.Collect$$$$00000000) for __main
     system_nrf52.o(i.SystemCoreClockUpdate) refers to system_nrf52.o(.data) for SystemCoreClock
@@ -81,17 +80,13 @@ Section Cross References
 Removing Unused input sections from the image.
 
     Removing main.o(i.blink_v1), (36 bytes).
-    Removing drv_tiempo.o(i.drv_tiempo_actual_us), (24 bytes).
-    Removing drv_tiempo.o(i.drv_tiempo_iniciar), (8 bytes).
+    Removing drv_tiempo.o(i.drv_tiempo_actual_us), (32 bytes).
     Removing hal_gpio_nrf.o(.rev16_text), (4 bytes).
     Removing hal_gpio_nrf.o(.revsh_text), (4 bytes).
     Removing hal_gpio_nrf.o(.rrx_text), (6 bytes).
     Removing hal_tiempo_nrf.o(.rev16_text), (4 bytes).
     Removing hal_tiempo_nrf.o(.revsh_text), (4 bytes).
     Removing hal_tiempo_nrf.o(.rrx_text), (6 bytes).
-    Removing hal_tiempo_nrf.o(i.__NVIC_EnableIRQ), (34 bytes).
-    Removing hal_tiempo_nrf.o(i.hal_tiempo_iniciar_tick), (80 bytes).
-    Removing hal_tiempo_nrf.o(i.hal_tiempo_reloj_periodico_tick), (156 bytes).
     Removing arm_startup_nrf52840.o(HEAP), (16384 bytes).
     Removing system_nrf52.o(.rev16_text), (4 bytes).
     Removing system_nrf52.o(.revsh_text), (4 bytes).
@@ -277,7 +272,7 @@ Removing Unused input sections from the image.
     Removing system_nrf52.o(i.nrf52_errata_96), (68 bytes).
     Removing system_nrf52.o(i.nrf52_errata_97), (68 bytes).
 
-196 unused section(s) (total 23756 bytes) removed from the image.
+192 unused section(s) (total 23486 bytes) removed from the image.
 
 ==============================================================================
 
@@ -289,21 +284,21 @@ Image Symbol Table
 
     RESET                                    0x00000000   Section      512  arm_startup_nrf52840.o(RESET)
     ../clib/microlib/division.c              0x00000000   Number         0  uldiv.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
-    ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
     ..\..\src\drv_leds.c                     0x00000000   Number         0  drv_leds.o ABSOLUTE
     ..\..\src\drv_tiempo.c                   0x00000000   Number         0  drv_tiempo.o ABSOLUTE
     ..\..\src\main.c                         0x00000000   Number         0  main.o ABSOLUTE
@@ -336,47 +331,49 @@ Image Symbol Table
     i.SystemCoreClockUpdate                  0x000002fc   Section        0  system_nrf52.o(i.SystemCoreClockUpdate)
     i.SystemInit                             0x0000030c   Section        0  system_nrf52.o(i.SystemInit)
     i.TIMER0_IRQHandler                      0x0000052c   Section        0  hal_tiempo_nrf.o(i.TIMER0_IRQHandler)
-    i.TIMER1_IRQHandler                      0x0000054c   Section        0  hal_tiempo_nrf.o(i.TIMER1_IRQHandler)
-    i.__scatterload_copy                     0x0000056c   Section       14  handlers.o(i.__scatterload_copy)
-    i.__scatterload_null                     0x0000057a   Section        2  handlers.o(i.__scatterload_null)
-    i.__scatterload_zeroinit                 0x0000057c   Section       14  handlers.o(i.__scatterload_zeroinit)
-    i.blink_v2                               0x0000058a   Section        0  main.o(i.blink_v2)
-    i.drv_led_apagar                         0x000005ac   Section        0  drv_leds.o(i.drv_led_apagar)
-    i.drv_led_conmutar                       0x000005cc   Section        0  drv_leds.o(i.drv_led_conmutar)
-    i.drv_led_encender                       0x000005f4   Section        0  drv_leds.o(i.drv_led_encender)
-    i.drv_leds_iniciar                       0x00000610   Section        0  drv_leds.o(i.drv_leds_iniciar)
-    i.drv_tiempo_actual_ms                   0x00000634   Section        0  drv_tiempo.o(i.drv_tiempo_actual_ms)
-    i.drv_tiempo_esperar_hasta_ms            0x0000064e   Section        0  drv_tiempo.o(i.drv_tiempo_esperar_hasta_ms)
-    i.drv_tiempo_esperar_ms                  0x00000668   Section        0  drv_tiempo.o(i.drv_tiempo_esperar_ms)
-    i.hal_gpio_escribir                      0x00000680   Section        0  hal_gpio_nrf.o(i.hal_gpio_escribir)
-    i.hal_gpio_iniciar                       0x000006a0   Section        0  hal_gpio_nrf.o(i.hal_gpio_iniciar)
-    i.hal_gpio_leer                          0x000006b0   Section        0  hal_gpio_nrf.o(i.hal_gpio_leer)
-    i.hal_gpio_sentido                       0x000006cc   Section        0  hal_gpio_nrf.o(i.hal_gpio_sentido)
-    i.hal_tiempo_actual_tick                 0x000006f8   Section        0  hal_tiempo_nrf.o(i.hal_tiempo_actual_tick)
-    i.main                                   0x0000071c   Section        0  main.o(i.main)
-    i.nrf52_configuration_249                0x0000073c   Section        0  system_nrf52.o(i.nrf52_configuration_249)
-    nrf52_configuration_249                  0x0000073d   Thumb Code    62  system_nrf52.o(i.nrf52_configuration_249)
-    i.nrf52_errata_103                       0x00000780   Section        0  system_nrf52.o(i.nrf52_errata_103)
-    nrf52_errata_103                         0x00000781   Thumb Code    62  system_nrf52.o(i.nrf52_errata_103)
-    i.nrf52_errata_115                       0x000007c4   Section        0  system_nrf52.o(i.nrf52_errata_115)
-    nrf52_errata_115                         0x000007c5   Thumb Code    62  system_nrf52.o(i.nrf52_errata_115)
-    i.nrf52_errata_120                       0x00000808   Section        0  system_nrf52.o(i.nrf52_errata_120)
-    nrf52_errata_120                         0x00000809   Thumb Code    62  system_nrf52.o(i.nrf52_errata_120)
-    i.nrf52_errata_136                       0x0000084c   Section        0  system_nrf52.o(i.nrf52_errata_136)
-    nrf52_errata_136                         0x0000084d   Thumb Code    62  system_nrf52.o(i.nrf52_errata_136)
-    i.nrf52_errata_36                        0x00000890   Section        0  system_nrf52.o(i.nrf52_errata_36)
-    nrf52_errata_36                          0x00000891   Thumb Code    62  system_nrf52.o(i.nrf52_errata_36)
-    i.nrf52_errata_66                        0x000008d4   Section        0  system_nrf52.o(i.nrf52_errata_66)
-    nrf52_errata_66                          0x000008d5   Thumb Code    62  system_nrf52.o(i.nrf52_errata_66)
-    i.nrf52_errata_98                        0x00000918   Section        0  system_nrf52.o(i.nrf52_errata_98)
-    nrf52_errata_98                          0x00000919   Thumb Code    62  system_nrf52.o(i.nrf52_errata_98)
-    i.nvmc_config                            0x0000095c   Section        0  system_nrf52.o(i.nvmc_config)
-    i.nvmc_wait                              0x00000970   Section        0  system_nrf52.o(i.nvmc_wait)
-    .constdata                               0x00000980   Section        4  drv_leds.o(.constdata)
-    led_list                                 0x00000980   Data           4  drv_leds.o(.constdata)
-    .data                                    0x20000000   Section        8  hal_tiempo_nrf.o(.data)
-    timer0_int_count                         0x20000000   Data           4  hal_tiempo_nrf.o(.data)
-    f_callback                               0x20000004   Data           4  hal_tiempo_nrf.o(.data)
+    i.__scatterload_copy                     0x0000054c   Section       14  handlers.o(i.__scatterload_copy)
+    i.__scatterload_null                     0x0000055a   Section        2  handlers.o(i.__scatterload_null)
+    i.__scatterload_zeroinit                 0x0000055c   Section       14  handlers.o(i.__scatterload_zeroinit)
+    i.blink_v2                               0x0000056a   Section        0  main.o(i.blink_v2)
+    i.drv_led_apagar                         0x0000058c   Section        0  drv_leds.o(i.drv_led_apagar)
+    i.drv_led_conmutar                       0x000005ac   Section        0  drv_leds.o(i.drv_led_conmutar)
+    i.drv_led_encender                       0x000005d4   Section        0  drv_leds.o(i.drv_led_encender)
+    i.drv_leds_iniciar                       0x000005f0   Section        0  drv_leds.o(i.drv_leds_iniciar)
+    i.drv_tiempo_actual_ms                   0x00000614   Section        0  drv_tiempo.o(i.drv_tiempo_actual_ms)
+    i.drv_tiempo_esperar_hasta_ms            0x0000063c   Section        0  drv_tiempo.o(i.drv_tiempo_esperar_hasta_ms)
+    i.drv_tiempo_esperar_ms                  0x00000652   Section        0  drv_tiempo.o(i.drv_tiempo_esperar_ms)
+    i.drv_tiempo_iniciar                     0x0000066c   Section        0  drv_tiempo.o(i.drv_tiempo_iniciar)
+    i.hal_gpio_escribir                      0x0000067c   Section        0  hal_gpio_nrf.o(i.hal_gpio_escribir)
+    i.hal_gpio_iniciar                       0x0000069c   Section        0  hal_gpio_nrf.o(i.hal_gpio_iniciar)
+    i.hal_gpio_leer                          0x000006ac   Section        0  hal_gpio_nrf.o(i.hal_gpio_leer)
+    i.hal_gpio_sentido                       0x000006c8   Section        0  hal_gpio_nrf.o(i.hal_gpio_sentido)
+    i.hal_tiempo_actual_tick                 0x000006f4   Section        0  hal_tiempo_nrf.o(i.hal_tiempo_actual_tick)
+    i.hal_tiempo_iniciar_tick                0x00000718   Section        0  hal_tiempo_nrf.o(i.hal_tiempo_iniciar_tick)
+    i.main                                   0x0000077c   Section        0  main.o(i.main)
+    i.nrf52_configuration_249                0x000007a0   Section        0  system_nrf52.o(i.nrf52_configuration_249)
+    nrf52_configuration_249                  0x000007a1   Thumb Code    62  system_nrf52.o(i.nrf52_configuration_249)
+    i.nrf52_errata_103                       0x000007e4   Section        0  system_nrf52.o(i.nrf52_errata_103)
+    nrf52_errata_103                         0x000007e5   Thumb Code    62  system_nrf52.o(i.nrf52_errata_103)
+    i.nrf52_errata_115                       0x00000828   Section        0  system_nrf52.o(i.nrf52_errata_115)
+    nrf52_errata_115                         0x00000829   Thumb Code    62  system_nrf52.o(i.nrf52_errata_115)
+    i.nrf52_errata_120                       0x0000086c   Section        0  system_nrf52.o(i.nrf52_errata_120)
+    nrf52_errata_120                         0x0000086d   Thumb Code    62  system_nrf52.o(i.nrf52_errata_120)
+    i.nrf52_errata_136                       0x000008b0   Section        0  system_nrf52.o(i.nrf52_errata_136)
+    nrf52_errata_136                         0x000008b1   Thumb Code    62  system_nrf52.o(i.nrf52_errata_136)
+    i.nrf52_errata_36                        0x000008f4   Section        0  system_nrf52.o(i.nrf52_errata_36)
+    nrf52_errata_36                          0x000008f5   Thumb Code    62  system_nrf52.o(i.nrf52_errata_36)
+    i.nrf52_errata_66                        0x00000938   Section        0  system_nrf52.o(i.nrf52_errata_66)
+    nrf52_errata_66                          0x00000939   Thumb Code    62  system_nrf52.o(i.nrf52_errata_66)
+    i.nrf52_errata_98                        0x0000097c   Section        0  system_nrf52.o(i.nrf52_errata_98)
+    nrf52_errata_98                          0x0000097d   Thumb Code    62  system_nrf52.o(i.nrf52_errata_98)
+    i.nvmc_config                            0x000009c0   Section        0  system_nrf52.o(i.nvmc_config)
+    i.nvmc_wait                              0x000009d4   Section        0  system_nrf52.o(i.nvmc_wait)
+    .constdata                               0x000009e4   Section        4  drv_leds.o(.constdata)
+    led_list                                 0x000009e4   Data           4  drv_leds.o(.constdata)
+    .data                                    0x20000000   Section        4  drv_tiempo.o(.data)
+    TICKS2US                                 0x20000000   Data           4  drv_tiempo.o(.data)
+    .data                                    0x20000004   Section        4  hal_tiempo_nrf.o(.data)
+    timer0_int_count                         0x20000004   Data           4  hal_tiempo_nrf.o(.data)
     .data                                    0x20000008   Section        4  system_nrf52.o(.data)
     __tagsym$$used                           0x20000008   Number         0  system_nrf52.o(.data)
     STACK                                    0x20000010   Section    16384  arm_startup_nrf52840.o(STACK)
@@ -448,6 +445,7 @@ Image Symbol Table
     SWI4_EGU4_IRQHandler                     0x0000022f   Thumb Code     0  arm_startup_nrf52840.o(.text)
     SWI5_EGU5_IRQHandler                     0x0000022f   Thumb Code     0  arm_startup_nrf52840.o(.text)
     TEMP_IRQHandler                          0x0000022f   Thumb Code     0  arm_startup_nrf52840.o(.text)
+    TIMER1_IRQHandler                        0x0000022f   Thumb Code     0  arm_startup_nrf52840.o(.text)
     TIMER2_IRQHandler                        0x0000022f   Thumb Code     0  arm_startup_nrf52840.o(.text)
     TIMER3_IRQHandler                        0x0000022f   Thumb Code     0  arm_startup_nrf52840.o(.text)
     TIMER4_IRQHandler                        0x0000022f   Thumb Code     0  arm_startup_nrf52840.o(.text)
@@ -465,28 +463,29 @@ Image Symbol Table
     SystemCoreClockUpdate                    0x000002fd   Thumb Code     8  system_nrf52.o(i.SystemCoreClockUpdate)
     SystemInit                               0x0000030d   Thumb Code   488  system_nrf52.o(i.SystemInit)
     TIMER0_IRQHandler                        0x0000052d   Thumb Code    24  hal_tiempo_nrf.o(i.TIMER0_IRQHandler)
-    TIMER1_IRQHandler                        0x0000054d   Thumb Code    22  hal_tiempo_nrf.o(i.TIMER1_IRQHandler)
-    __scatterload_copy                       0x0000056d   Thumb Code    14  handlers.o(i.__scatterload_copy)
-    __scatterload_null                       0x0000057b   Thumb Code     2  handlers.o(i.__scatterload_null)
-    __scatterload_zeroinit                   0x0000057d   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
-    blink_v2                                 0x0000058b   Thumb Code    34  main.o(i.blink_v2)
-    drv_led_apagar                           0x000005ad   Thumb Code    26  drv_leds.o(i.drv_led_apagar)
-    drv_led_conmutar                         0x000005cd   Thumb Code    36  drv_leds.o(i.drv_led_conmutar)
-    drv_led_encender                         0x000005f5   Thumb Code    24  drv_leds.o(i.drv_led_encender)
-    drv_leds_iniciar                         0x00000611   Thumb Code    32  drv_leds.o(i.drv_leds_iniciar)
-    drv_tiempo_actual_ms                     0x00000635   Thumb Code    26  drv_tiempo.o(i.drv_tiempo_actual_ms)
-    drv_tiempo_esperar_hasta_ms              0x0000064f   Thumb Code    26  drv_tiempo.o(i.drv_tiempo_esperar_hasta_ms)
-    drv_tiempo_esperar_ms                    0x00000669   Thumb Code    24  drv_tiempo.o(i.drv_tiempo_esperar_ms)
-    hal_gpio_escribir                        0x00000681   Thumb Code    26  hal_gpio_nrf.o(i.hal_gpio_escribir)
-    hal_gpio_iniciar                         0x000006a1   Thumb Code    12  hal_gpio_nrf.o(i.hal_gpio_iniciar)
-    hal_gpio_leer                            0x000006b1   Thumb Code    24  hal_gpio_nrf.o(i.hal_gpio_leer)
-    hal_gpio_sentido                         0x000006cd   Thumb Code    38  hal_gpio_nrf.o(i.hal_gpio_sentido)
-    hal_tiempo_actual_tick                   0x000006f9   Thumb Code    26  hal_tiempo_nrf.o(i.hal_tiempo_actual_tick)
-    main                                     0x0000071d   Thumb Code    30  main.o(i.main)
-    nvmc_config                              0x0000095d   Thumb Code    14  system_nrf52.o(i.nvmc_config)
-    nvmc_wait                                0x00000971   Thumb Code    12  system_nrf52.o(i.nvmc_wait)
-    Region$$Table$$Base                      0x00000984   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x000009a4   Number         0  anon$$obj.o(Region$$Table)
+    __scatterload_copy                       0x0000054d   Thumb Code    14  handlers.o(i.__scatterload_copy)
+    __scatterload_null                       0x0000055b   Thumb Code     2  handlers.o(i.__scatterload_null)
+    __scatterload_zeroinit                   0x0000055d   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
+    blink_v2                                 0x0000056b   Thumb Code    34  main.o(i.blink_v2)
+    drv_led_apagar                           0x0000058d   Thumb Code    26  drv_leds.o(i.drv_led_apagar)
+    drv_led_conmutar                         0x000005ad   Thumb Code    36  drv_leds.o(i.drv_led_conmutar)
+    drv_led_encender                         0x000005d5   Thumb Code    24  drv_leds.o(i.drv_led_encender)
+    drv_leds_iniciar                         0x000005f1   Thumb Code    32  drv_leds.o(i.drv_leds_iniciar)
+    drv_tiempo_actual_ms                     0x00000615   Thumb Code    36  drv_tiempo.o(i.drv_tiempo_actual_ms)
+    drv_tiempo_esperar_hasta_ms              0x0000063d   Thumb Code    22  drv_tiempo.o(i.drv_tiempo_esperar_hasta_ms)
+    drv_tiempo_esperar_ms                    0x00000653   Thumb Code    24  drv_tiempo.o(i.drv_tiempo_esperar_ms)
+    drv_tiempo_iniciar                       0x0000066d   Thumb Code    12  drv_tiempo.o(i.drv_tiempo_iniciar)
+    hal_gpio_escribir                        0x0000067d   Thumb Code    26  hal_gpio_nrf.o(i.hal_gpio_escribir)
+    hal_gpio_iniciar                         0x0000069d   Thumb Code    12  hal_gpio_nrf.o(i.hal_gpio_iniciar)
+    hal_gpio_leer                            0x000006ad   Thumb Code    24  hal_gpio_nrf.o(i.hal_gpio_leer)
+    hal_gpio_sentido                         0x000006c9   Thumb Code    38  hal_gpio_nrf.o(i.hal_gpio_sentido)
+    hal_tiempo_actual_tick                   0x000006f5   Thumb Code    26  hal_tiempo_nrf.o(i.hal_tiempo_actual_tick)
+    hal_tiempo_iniciar_tick                  0x00000719   Thumb Code    78  hal_tiempo_nrf.o(i.hal_tiempo_iniciar_tick)
+    main                                     0x0000077d   Thumb Code    34  main.o(i.main)
+    nvmc_config                              0x000009c1   Thumb Code    14  system_nrf52.o(i.nvmc_config)
+    nvmc_wait                                0x000009d5   Thumb Code    12  system_nrf52.o(i.nvmc_wait)
+    Region$$Table$$Base                      0x000009e8   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x00000a08   Number         0  anon$$obj.o(Region$$Table)
     SystemCoreClock                          0x20000008   Data           4  system_nrf52.o(.data)
     __initial_sp                             0x20004010   Data           0  arm_startup_nrf52840.o(STACK)
 
@@ -498,77 +497,80 @@ Memory Map of the image
 
   Image Entry point : 0x00000215
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x000009b0, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x00000a14, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x000009a4, Max: 0xffffffff, ABSOLUTE)
-
-    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
-
-    0x00000000   0x00000000   0x00000200   Data   RO          264    RESET               arm_startup_nrf52840.o
-    0x00000200   0x00000200   0x00000000   Code   RO         1276  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
-    0x00000200   0x00000200   0x00000004   Code   RO         1281    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
-    0x00000204   0x00000204   0x00000004   Code   RO         1284    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
-    0x00000208   0x00000208   0x00000000   Code   RO         1286    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
-    0x00000208   0x00000208   0x00000000   Code   RO         1288    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
-    0x00000208   0x00000208   0x00000008   Code   RO         1289    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
-    0x00000210   0x00000210   0x00000000   Code   RO         1291    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
-    0x00000210   0x00000210   0x00000000   Code   RO         1293    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
-    0x00000210   0x00000210   0x00000004   Code   RO         1282    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
-    0x00000214   0x00000214   0x00000024   Code   RO          265  * .text               arm_startup_nrf52840.o
-    0x00000238   0x00000238   0x00000062   Code   RO         1279    .text               mc_w.l(uldiv.o)
-    0x0000029a   0x0000029a   0x0000001e   Code   RO         1295    .text               mc_w.l(llshl.o)
-    0x000002b8   0x000002b8   0x00000020   Code   RO         1297    .text               mc_w.l(llushr.o)
-    0x000002d8   0x000002d8   0x00000024   Code   RO         1299    .text               mc_w.l(init.o)
-    0x000002fc   0x000002fc   0x00000010   Code   RO          272    i.SystemCoreClockUpdate  system_nrf52.o
-    0x0000030c   0x0000030c   0x00000220   Code   RO          273    i.SystemInit        system_nrf52.o
-    0x0000052c   0x0000052c   0x00000020   Code   RO          206    i.TIMER0_IRQHandler  hal_tiempo_nrf.o
-    0x0000054c   0x0000054c   0x00000020   Code   RO          207    i.TIMER1_IRQHandler  hal_tiempo_nrf.o
-    0x0000056c   0x0000056c   0x0000000e   Code   RO         1303    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x0000057a   0x0000057a   0x00000002   Code   RO         1304    i.__scatterload_null  mc_w.l(handlers.o)
-    0x0000057c   0x0000057c   0x0000000e   Code   RO         1305    i.__scatterload_zeroinit  mc_w.l(handlers.o)
-    0x0000058a   0x0000058a   0x00000022   Code   RO            2    i.blink_v2          main.o
-    0x000005ac   0x000005ac   0x00000020   Code   RO           42    i.drv_led_apagar    drv_leds.o
-    0x000005cc   0x000005cc   0x00000028   Code   RO           43    i.drv_led_conmutar  drv_leds.o
-    0x000005f4   0x000005f4   0x0000001c   Code   RO           44    i.drv_led_encender  drv_leds.o
-    0x00000610   0x00000610   0x00000024   Code   RO           45    i.drv_leds_iniciar  drv_leds.o
-    0x00000634   0x00000634   0x0000001a   Code   RO           80    i.drv_tiempo_actual_ms  drv_tiempo.o
-    0x0000064e   0x0000064e   0x0000001a   Code   RO           82    i.drv_tiempo_esperar_hasta_ms  drv_tiempo.o
-    0x00000668   0x00000668   0x00000018   Code   RO           83    i.drv_tiempo_esperar_ms  drv_tiempo.o
-    0x00000680   0x00000680   0x00000020   Code   RO          122    i.hal_gpio_escribir  hal_gpio_nrf.o
-    0x000006a0   0x000006a0   0x00000010   Code   RO          123    i.hal_gpio_iniciar  hal_gpio_nrf.o
-    0x000006b0   0x000006b0   0x0000001c   Code   RO          124    i.hal_gpio_leer     hal_gpio_nrf.o
-    0x000006cc   0x000006cc   0x0000002c   Code   RO          125    i.hal_gpio_sentido  hal_gpio_nrf.o
-    0x000006f8   0x000006f8   0x00000024   Code   RO          209    i.hal_tiempo_actual_tick  hal_tiempo_nrf.o
-    0x0000071c   0x0000071c   0x0000001e   Code   RO            3    i.main              main.o
-    0x0000073a   0x0000073a   0x00000002   PAD
-    0x0000073c   0x0000073c   0x00000044   Code   RO          274    i.nrf52_configuration_249  system_nrf52.o
-    0x00000780   0x00000780   0x00000044   Code   RO          283    i.nrf52_errata_103  system_nrf52.o
-    0x000007c4   0x000007c4   0x00000044   Code   RO          294    i.nrf52_errata_115  system_nrf52.o
-    0x00000808   0x00000808   0x00000044   Code   RO          300    i.nrf52_errata_120  system_nrf52.o
-    0x0000084c   0x0000084c   0x00000044   Code   RO          310    i.nrf52_errata_136  system_nrf52.o
-    0x00000890   0x00000890   0x00000044   Code   RO          411    i.nrf52_errata_36   system_nrf52.o
-    0x000008d4   0x000008d4   0x00000044   Code   RO          434    i.nrf52_errata_66   system_nrf52.o
-    0x00000918   0x00000918   0x00000044   Code   RO          461    i.nrf52_errata_98   system_nrf52.o
-    0x0000095c   0x0000095c   0x00000014   Code   RO          462    i.nvmc_config       system_nrf52.o
-    0x00000970   0x00000970   0x00000010   Code   RO          463    i.nvmc_wait         system_nrf52.o
-    0x00000980   0x00000980   0x00000004   Data   RO           46    .constdata          drv_leds.o
-    0x00000984   0x00000984   0x00000020   Data   RO         1301    Region$$Table       anon$$obj.o
-
-
-    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x000009a4, Size: 0x0000000c, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00000a08, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x000009a4   0x00000008   Data   RW          212    .data               hal_tiempo_nrf.o
-    0x20000008   0x000009ac   0x00000004   Data   RW          464    .data               system_nrf52.o
+    0x00000000   0x00000000   0x00000200   Data   RO          249    RESET               arm_startup_nrf52840.o
+    0x00000200   0x00000200   0x00000000   Code   RO         1261  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
+    0x00000200   0x00000200   0x00000004   Code   RO         1266    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
+    0x00000204   0x00000204   0x00000004   Code   RO         1269    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
+    0x00000208   0x00000208   0x00000000   Code   RO         1271    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
+    0x00000208   0x00000208   0x00000000   Code   RO         1273    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
+    0x00000208   0x00000208   0x00000008   Code   RO         1274    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
+    0x00000210   0x00000210   0x00000000   Code   RO         1276    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
+    0x00000210   0x00000210   0x00000000   Code   RO         1278    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
+    0x00000210   0x00000210   0x00000004   Code   RO         1267    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
+    0x00000214   0x00000214   0x00000024   Code   RO          250  * .text               arm_startup_nrf52840.o
+    0x00000238   0x00000238   0x00000062   Code   RO         1264    .text               mc_w.l(uldiv.o)
+    0x0000029a   0x0000029a   0x0000001e   Code   RO         1280    .text               mc_w.l(llshl.o)
+    0x000002b8   0x000002b8   0x00000020   Code   RO         1282    .text               mc_w.l(llushr.o)
+    0x000002d8   0x000002d8   0x00000024   Code   RO         1284    .text               mc_w.l(init.o)
+    0x000002fc   0x000002fc   0x00000010   Code   RO          257    i.SystemCoreClockUpdate  system_nrf52.o
+    0x0000030c   0x0000030c   0x00000220   Code   RO          258    i.SystemInit        system_nrf52.o
+    0x0000052c   0x0000052c   0x00000020   Code   RO          208    i.TIMER0_IRQHandler  hal_tiempo_nrf.o
+    0x0000054c   0x0000054c   0x0000000e   Code   RO         1288    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x0000055a   0x0000055a   0x00000002   Code   RO         1289    i.__scatterload_null  mc_w.l(handlers.o)
+    0x0000055c   0x0000055c   0x0000000e   Code   RO         1290    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x0000056a   0x0000056a   0x00000022   Code   RO            2    i.blink_v2          main.o
+    0x0000058c   0x0000058c   0x00000020   Code   RO           42    i.drv_led_apagar    drv_leds.o
+    0x000005ac   0x000005ac   0x00000028   Code   RO           43    i.drv_led_conmutar  drv_leds.o
+    0x000005d4   0x000005d4   0x0000001c   Code   RO           44    i.drv_led_encender  drv_leds.o
+    0x000005f0   0x000005f0   0x00000024   Code   RO           45    i.drv_leds_iniciar  drv_leds.o
+    0x00000614   0x00000614   0x00000028   Code   RO           80    i.drv_tiempo_actual_ms  drv_tiempo.o
+    0x0000063c   0x0000063c   0x00000016   Code   RO           82    i.drv_tiempo_esperar_hasta_ms  drv_tiempo.o
+    0x00000652   0x00000652   0x00000018   Code   RO           83    i.drv_tiempo_esperar_ms  drv_tiempo.o
+    0x0000066a   0x0000066a   0x00000002   PAD
+    0x0000066c   0x0000066c   0x00000010   Code   RO           84    i.drv_tiempo_iniciar  drv_tiempo.o
+    0x0000067c   0x0000067c   0x00000020   Code   RO          124    i.hal_gpio_escribir  hal_gpio_nrf.o
+    0x0000069c   0x0000069c   0x00000010   Code   RO          125    i.hal_gpio_iniciar  hal_gpio_nrf.o
+    0x000006ac   0x000006ac   0x0000001c   Code   RO          126    i.hal_gpio_leer     hal_gpio_nrf.o
+    0x000006c8   0x000006c8   0x0000002c   Code   RO          127    i.hal_gpio_sentido  hal_gpio_nrf.o
+    0x000006f4   0x000006f4   0x00000024   Code   RO          209    i.hal_tiempo_actual_tick  hal_tiempo_nrf.o
+    0x00000718   0x00000718   0x00000064   Code   RO          210    i.hal_tiempo_iniciar_tick  hal_tiempo_nrf.o
+    0x0000077c   0x0000077c   0x00000022   Code   RO            3    i.main              main.o
+    0x0000079e   0x0000079e   0x00000002   PAD
+    0x000007a0   0x000007a0   0x00000044   Code   RO          259    i.nrf52_configuration_249  system_nrf52.o
+    0x000007e4   0x000007e4   0x00000044   Code   RO          268    i.nrf52_errata_103  system_nrf52.o
+    0x00000828   0x00000828   0x00000044   Code   RO          279    i.nrf52_errata_115  system_nrf52.o
+    0x0000086c   0x0000086c   0x00000044   Code   RO          285    i.nrf52_errata_120  system_nrf52.o
+    0x000008b0   0x000008b0   0x00000044   Code   RO          295    i.nrf52_errata_136  system_nrf52.o
+    0x000008f4   0x000008f4   0x00000044   Code   RO          396    i.nrf52_errata_36   system_nrf52.o
+    0x00000938   0x00000938   0x00000044   Code   RO          419    i.nrf52_errata_66   system_nrf52.o
+    0x0000097c   0x0000097c   0x00000044   Code   RO          446    i.nrf52_errata_98   system_nrf52.o
+    0x000009c0   0x000009c0   0x00000014   Code   RO          447    i.nvmc_config       system_nrf52.o
+    0x000009d4   0x000009d4   0x00000010   Code   RO          448    i.nvmc_wait         system_nrf52.o
+    0x000009e4   0x000009e4   0x00000004   Data   RO           46    .constdata          drv_leds.o
+    0x000009e8   0x000009e8   0x00000020   Data   RO         1286    Region$$Table       anon$$obj.o
 
 
-    Execution Region ER_ZI (Exec base: 0x2000000c, Load base: 0x000009b0, Size: 0x00004004, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x00000a08, Size: 0x0000000c, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x2000000c   0x000009b0   0x00000004   PAD
-    0x20000010        -       0x00004000   Zero   RW          262    STACK               arm_startup_nrf52840.o
+    0x20000000   0x00000a08   0x00000004   Data   RW           85    .data               drv_tiempo.o
+    0x20000004   0x00000a0c   0x00000004   Data   RW          211    .data               hal_tiempo_nrf.o
+    0x20000008   0x00000a10   0x00000004   Data   RW          449    .data               system_nrf52.o
+
+
+    Execution Region ER_ZI (Exec base: 0x2000000c, Load base: 0x00000a14, Size: 0x00004004, Max: 0xffffffff, ABSOLUTE)
+
+    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x2000000c   0x00000a14   0x00000004   PAD
+    0x20000010        -       0x00004000   Zero   RW          247    STACK               arm_startup_nrf52840.o
 
 
 ==============================================================================
@@ -578,18 +580,18 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-        36          8        512          0      16384        876   arm_startup_nrf52840.o
-       136         18          4          0          0       2866   drv_leds.o
-        76          0          0          0          0       1781   drv_tiempo.o
-       120         20          0          0          0      37442   hal_gpio_nrf.o
-       100         28          0          8          0       2453   hal_tiempo_nrf.o
-        64          0          0          0          0       6014   main.o
-      1140        170          0          4          0      39480   system_nrf52.o
+        36          8        512          0      16384        900   arm_startup_nrf52840.o
+       136         18          4          0          0       3002   drv_leds.o
+       102          8          0          4          0       2550   drv_tiempo.o
+       120         20          0          0          0      37446   hal_gpio_nrf.o
+       168         40          0          4          0      32926   hal_tiempo_nrf.o
+        68          0          0          0          0       6002   main.o
+      1140        170          0          4          0      39452   system_nrf52.o
 
     ----------------------------------------------------------------------
-      1674        244        548         12      16388      90912   Object Totals
+      1774        264        548         12      16388     122278   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-         2          0          0          0          4          0   (incl. Padding)
+         4          0          0          0          4          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -629,15 +631,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      1920        260        548         12      16388      89060   Grand Totals
-      1920        260        548         12      16388      89060   ELF Image Totals
-      1920        260        548         12          0          0   ROM Totals
+      2020        280        548         12      16388     120326   Grand Totals
+      2020        280        548         12      16388     120326   ELF Image Totals
+      2020        280        548         12          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 2468 (   2.41kB)
+    Total RO  Size (Code + RO Data)                 2568 (   2.51kB)
     Total RW  Size (RW Data + ZI Data)             16400 (  16.02kB)
-    Total ROM Size (Code + RO Data + RW Data)       2480 (   2.42kB)
+    Total ROM Size (Code + RO Data + RW Data)       2580 (   2.52kB)
 
 ==============================================================================
 

@@ -409,7 +409,7 @@ MEMMAP          EQU     0xE01FC040      ; Memory Mapping Control
                 SUB     SL, SP, #USR_Stack_Size
 
                 ENDIF
-
+			
 
 ; Enter the C code
 

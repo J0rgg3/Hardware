@@ -419,6 +419,16 @@
       </TargetOption>
       <Groups>
         <Group>
+          <GroupName>Inicio</GroupName>
+          <Files>
+            <File>
+              <FileName>Startup.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\src_lpc\Startup.s</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Source Comun</GroupName>
           <Files>
             <File>
@@ -485,16 +495,6 @@
               <FileName>reserva_gpio_lpc2105.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src_lpc\reserva_gpio_lpc2105.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Inicio</GroupName>
-          <Files>
-            <File>
-              <FileName>Startup.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\src_lpc\Startup.s</FilePath>
             </File>
           </Files>
         </Group>

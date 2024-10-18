@@ -33,7 +33,7 @@ void blink_v1(uint32_t id){
  * activacion por tiempo, usa tanto manejador del led como el del tiempo
  * para realizar en la segunda sesión de la practica, version a entregar
  */
-void blink_v2(uint32_t id){
+void  blink_v2(uint32_t id){
 	Tiempo_ms_t siguiente_activacion;	
 	
 	drv_led_encender(id);
@@ -55,10 +55,12 @@ void blink_v2(uint32_t id){
  * para la entrega final se debe incocar a blink_v2
  */
 int main(void){
+	
+
 	uint32_t Num_Leds;
 
 	/* Init tiempo, es un reloj que indica el tiempo desde que comenzo la ejecución */
-//	drv_tiempo_iniciar(); // para la sesion 2 de practica 2
+	drv_tiempo_iniciar(); // para la sesion 2 de practica 2
 	
 	hal_gpio_iniciar();	// llamamos a iniciar gpio antesde que lo hagan los drivers
 	
