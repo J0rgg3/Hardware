@@ -2,6 +2,7 @@
 #include "hal_tiempo.h"
 
 static uint32_t TICKS2US;
+#define US2MS 1000 //,jhfkjafhk jh fkjasdhf kjash f
 
 /**
  * Inicializa el reloj y empieza a contar
@@ -17,7 +18,7 @@ void drv_tiempo_iniciar(void) {
  */
 Tiempo_us_t drv_tiempo_actual_us(void) {
     // Obtener el tiempo actual en ticks desde el HAL
-    uint64_t ticks = hal_tiempo_actual_tick();
+    Tiempo_us_t ticks = hal_tiempo_actual_tick();
     // Convertir ticks a microsegundos
     return ticks / TICKS2US;
 }
@@ -27,9 +28,9 @@ Tiempo_us_t drv_tiempo_actual_us(void) {
  */
 Tiempo_ms_t drv_tiempo_actual_ms(void) {
     // Obtener el tiempo actual en ticks desde el HAL
-    uint64_t ticks = hal_tiempo_actual_tick();
+    Tiempo_us_t us =  drv_tiempo_actual_us() ;
     // Convertir ticks a milisegundos
-    return ticks / (TICKS2US* 1000);
+    return us / US2MS;
 }
 
 /**
@@ -41,8 +42,6 @@ void drv_tiempo_esperar_ms(Tiempo_ms_t ms) {
     Tiempo_ms_t tiempo_inicial = drv_tiempo_actual_ms();
     // Esperar hasta que se haya transcurrido el tiempo especificado
     while (drv_tiempo_actual_ms() - tiempo_inicial < ms) {
-      
-			
 			// Esperar de manera activa hasta que se cumpla el tiempo
     }
 		
@@ -52,9 +51,10 @@ void drv_tiempo_esperar_ms(Tiempo_ms_t ms) {
  * Esperar hasta un determinado tiempo (en ms), devuelve el tiempo actual
  */
 Tiempo_ms_t drv_tiempo_esperar_hasta_ms(Tiempo_ms_t ms) {
-    // Obtener el tiempo actual
-   drv_tiempo_esperar_ms(ms-drv_tiempo_actual_ms());
+    // Obtener el tiempo actual 
+
+		while (drv_tiempo_actual_ms() < ms){};
     // Devolver el tiempo actual
-    return drv_tiempo_actual_ms();
+     return drv_tiempo_actual_ms();
 }
 

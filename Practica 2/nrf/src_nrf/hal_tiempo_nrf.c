@@ -1,14 +1,9 @@
 #include <nrf.h>        // Definiciones de nRF52840
 #include <stdint.h>
 
-#define MAX_COUNTER_VALUE 0xFFFFFFFE         // Máximo valor del contador de 32 bits
-#define counter_0_value	8000000						  //Número de ticks para prescaler = 0	(16Mhz) 0x007A1200
-#define counter_1_value 4000000						 //Número de ticks para prescaler = 1	(16Mhz) 0x003D0900
-#define counter_2_value 2000000						//Número de ticks para prescaler = 2(16Mhz) 0x001E8480
-#define counter_3_value 1000000					 //Número de ticks para prescaler = 3(16Mhz) 0x000F4240
-#define counter_4_value 500000					//Número de ticks para prescaler = 4(16Mhz) 0x0007A120
+#define MAX_COUNTER_VALUE  0XFFFFFFFE  //0xFFFFFFFE         // Máximo valor del contador de 32 bits
 #define HAL_TICKS2US      16           // PCLK de 16 MHz (para el nRF52840)
-
+#define US2MS							1000						//milisegundos por microsogundos
 /* *****************************************************************************
  * Timer0 contador de ticks
  */
@@ -18,10 +13,15 @@ static volatile uint32_t timer0_int_count = 0;  // Contador de 32 bits de veces 
  * Timer 0 Interrupt Service Routine
  */
 void TIMER0_IRQHandler(void) {
-	 if (NRF_TIMER0->EVENTS_COMPARE[0]) {// Al estar ahora activo solo el timer no haria falta comprobar si cc[0] es lo que ha generado la interrupción  
+	 volatile uint32_t dummy;
+	if (NRF_TIMER0->EVENTS_COMPARE[0] == 1)
+  {
 			NRF_TIMER0->EVENTS_COMPARE[0] = 0;  // Limpiar el flag de interrupción
+			dummy = NRF_TIMER0->EVENTS_COMPARE[0];			//leerlo para asegurar que se ha borrado
+			dummy;
 			timer0_int_count++;
-	 }
+	}
+	
 	
 }
 
@@ -30,17 +30,22 @@ void TIMER0_IRQHandler(void) {
  */
 uint32_t hal_tiempo_iniciar_tick() {
     timer0_int_count = 0;
-		NRF_TIMER0->PRESCALER = 0;
-		NRF_TIMER0->MODE = TIMER_MODE_MODE_Timer;         			  // Modo temporizador
-		NRF_TIMER0->CC[0] = counter_0_value;									   // T0MR0 = MAX_COUNTER_VALUE
 	
-		NRF_TIMER0->INTENSET = TIMER_INTENSET_COMPARE0_Msk;  	 // Habilitar interrupción cuando coincida con CC[0]
-		NRF_TIMER0->SHORTS = TIMER_SHORTS_COMPARE0_CLEAR_Msk; // Reiniciar el temporizador cuando coincida con CC[0]
+		
+		NRF_TIMER0->BITMODE = TIMER_BITMODE_BITMODE_32Bit << TIMER_BITMODE_BITMODE_Pos;
 	
+		NRF_TIMER0->PRESCALER = 0 << TIMER_PRESCALER_PRESCALER_Pos; // Ponerlo en su posicion 
+		
+		NRF_TIMER0->CC[0] = MAX_COUNTER_VALUE;									   // MAX_COUNTER_VALUE
+	
+		NRF_TIMER0->INTENSET = TIMER_INTENSET_COMPARE0_Enabled << TIMER_INTENSET_COMPARE0_Pos;  	 // Habilitar interrupción cuando coincida con CC[0]
+		//no monotono:
+		//NRF_TIMER0->SHORTS = TIMER_SHORTS_COMPARE0_CLEAR_Enabled << TIMER_SHORTS_COMPARE0_CLEAR_Pos; // Reiniciar el temporizador cuando coincida con CC[0]
+		
 	
 		NVIC_EnableIRQ(TIMER0_IRQn);											// Enable Timer0 Interrupt
 
-  	NRF_TIMER0->TASKS_START = 1;										//T0TCR = 1;  // Empieza la cuenta
+   	NRF_TIMER0->TASKS_START = 1;										//
 
     return HAL_TICKS2US;                          // Devuelve el factor de conversión de ticks a microsegundos
 }
@@ -50,8 +55,69 @@ uint32_t hal_tiempo_iniciar_tick() {
  */
 uint64_t hal_tiempo_actual_tick() { 
     uint64_t time;
-    time = (( counter_0_value + 1) * timer0_int_count) + (uint64_t)NRF_TIMER0->CC[0]; 
+		NRF_TIMER0->TASKS_CAPTURE[1] = 1;//captura el valor de l timer en cc[1]
+		 
+		time = (( MAX_COUNTER_VALUE) * (uint64_t)timer0_int_count) + (uint64_t)NRF_TIMER0->CC[1]; 
     return time;
 }
+
+
+/* *****************************************************************************
+ * Activacion periodica con timer 1
+ */
+static void(*f_callback)();		//puntero a funcion a llamar cuando salte la RSI (en modo irq)
+
+/* *****************************************************************************
+ * Timer 1 Interrupt Service Routine
+ * llama a la funcion de callbak que se ejecutara en modo irq
+ */
+void timer1_ISR (void) __irq {
+	 volatile uint32_t dummy;
+	
+	if (NRF_TIMER1->EVENTS_COMPARE[0] == 1)
+  {
+			f_callback();	
+			NRF_TIMER1->EVENTS_COMPARE[0] = 0;  				// Limpiar el flag de interrupción
+			dummy = NRF_TIMER1->EVENTS_COMPARE[0];			//leerlo para asegurar que se ha borrado
+			dummy;
+		
+	}
+	
+	
+}
+
+/* *****************************************************************************
+ * Dependiente del hardware Timer1
+ * Programa el reloj para que llame a la función de callback cada periodo.
+ * El periodo se indica en tick. Si el periodo es cero se para el temporizador. 
+ */
+void hal_tiempo_reloj_periodico_tick(uint32_t periodo_en_tick, void(*funcion_callback)()){
+  
+	f_callback = funcion_callback;
+	
+	if (periodo_en_tick != 0) { //Si el periodo es cero solo se para el temporizador.
+		NRF_TIMER0->CC[0] = periodo_en_tick   - 1; 		// 16 Ticks (ciclos) por microsegundo.
+																																				// (periodo_en_ms * HAL_TICKS2US * US2MS) - 1;  
+																																				// resto uno por como incrementa y compara
+		
+	
+		NRF_TIMER0->INTENSET = TIMER_INTENSET_COMPARE0_Enabled << TIMER_INTENSET_COMPARE0_Pos;  	 // Habilitar interrupción cuando coincida con CC[0]
+		NRF_TIMER0->SHORTS = TIMER_SHORTS_COMPARE0_CLEAR_Enabled << TIMER_SHORTS_COMPARE0_CLEAR_Pos; // Reiniciar el temporizador cuando coincida con CC[0]//no monotono
+		// Enable Timer1 Interrupt.
+		
+		// 0x20 bit 5 enables vectored IRQs. 
+		// 5 is the number of the interrupt assigned. Number 5 is the Timer 1
+		NVIC_EnableIRQ(TIMER0_IRQn);	
+		
+		NRF_TIMER1->TASKS_START = 3;  // Reincia los contadores
+		NRF_TIMER1->TASKS_START = 1;  // Empieza la cuenta
+	} else {
+		// Detiene el temporizador
+		NRF_TIMER1->TASKS_START  = 0;  
+		NVIC_DisableIRQ(TIMER1_IRQn);		                   // Disable Timer1 Interrupt		
+	}
+}
+
+
 
 
