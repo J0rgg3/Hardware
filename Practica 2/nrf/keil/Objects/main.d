@@ -4,3 +4,4 @@
 .\objects\main.o: ..\..\src\hal_gpio.h
 .\objects\main.o: ..\..\src\drv_leds.h
 .\objects\main.o: ..\..\src\drv_tiempo.h
+.\objects\main.o: ..\..\src\drv_consumo.h

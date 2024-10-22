@@ -422,6 +422,21 @@
               <FileType>5</FileType>
               <FilePath>..\..\src\board.h</FilePath>
             </File>
+            <File>
+              <FileName>drv_consumo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\drv_consumo.h</FilePath>
+            </File>
+            <File>
+              <FileName>drv_consumo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\drv_consumo.c</FilePath>
+            </File>
+            <File>
+              <FileName>hal_consumo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\hal_consumo.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -451,6 +466,11 @@
               <FileName>board_nrf52840_dongle.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\src_nrf\board_nrf52840_dongle.h</FilePath>
+            </File>
+            <File>
+              <FileName>hal_consumo_nrf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\hal_consumo_nrf.c</FilePath>
             </File>
           </Files>
         </Group>

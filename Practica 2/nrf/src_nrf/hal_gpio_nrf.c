@@ -7,6 +7,7 @@
 
 #define LED1_GPIO  (13UL)
 #define LED2_GPIO  (14UL)
+#define LED3_GPIO  (15UL)
  
  void hal_gpio_iniciar(){
  
@@ -21,6 +22,12 @@
                                    (GPIO_PIN_CNF_INPUT_Connect << GPIO_PIN_CNF_INPUT_Pos) |
                                    (GPIO_PIN_CNF_PULL_Disabled << GPIO_PIN_CNF_PULL_Pos) |
                                    (GPIO_PIN_CNF_SENSE_Disabled << GPIO_PIN_CNF_SENSE_Pos);
+                                   
+  NRF_GPIO->PIN_CNF[LED3_GPIO] = (GPIO_PIN_CNF_DIR_Output << GPIO_PIN_CNF_DIR_Pos) |
+                                   (GPIO_PIN_CNF_DRIVE_S0S1 << GPIO_PIN_CNF_DRIVE_Pos) |
+                                   (GPIO_PIN_CNF_INPUT_Connect << GPIO_PIN_CNF_INPUT_Pos) |
+                                   (GPIO_PIN_CNF_PULL_Disabled << GPIO_PIN_CNF_PULL_Pos) |
+                                   (GPIO_PIN_CNF_SENSE_Disabled << GPIO_PIN_CNF_SENSE_Pos);                                
 	
 	//NRF_GPIO->OUTSET = (1UL << LED2_GPIO);
  

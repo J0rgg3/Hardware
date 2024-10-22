@@ -34,6 +34,8 @@ Tiempo_ms_t drv_tiempo_actual_ms(void);
  */
 void drv_tiempo_esperar_ms(Tiempo_ms_t ms);
 
+void drv_tiempo_periodico_ms(Tiempo_ms_t ms,void(*funcion_callback)());
+
 /**
  * esperar hasta un determinado tiempo (en ms), devuelve el tiempo actual
  */

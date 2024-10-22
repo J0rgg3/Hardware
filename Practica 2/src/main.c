@@ -10,6 +10,7 @@
 #include "hal_gpio.h"
 #include "drv_leds.h"
 #include "drv_tiempo.h"
+#include "drv_consumo.h"
 
 #define RETARDO_MS 500 		//retardo blink en milisegundos
 
@@ -49,6 +50,24 @@ void  blink_v2(uint32_t id){
 	}
 }
 
+void leds_c(void){
+
+	drv_led_conmutar(3);
+}
+
+
+void  blink_v3(uint32_t id){
+	//drv_consumo_iniciar();
+	
+	drv_led_encender(id);
+	drv_tiempo_periodico_ms(RETARDO_MS,leds_c);
+	
+	while(1) {
+		 drv_consumo_esperar();
+
+	}
+}
+
 /* *****************************************************************************
  * MAIN, Programa principal.
  * para la primera sesion se debe usar la funcion de blink_v1 sin temporizadores
@@ -60,7 +79,7 @@ int main(void){
 	uint32_t Num_Leds;
 
 	/* Init tiempo, es un reloj que indica el tiempo desde que comenzo la ejecución */
-	drv_tiempo_iniciar(); // para la sesion 2 de practica 2
+	drv_tiempo_iniciar(); // para la sesion 2 de practica 2, es necesario inicarlo para blinkv3, para valor HAL_TICKS2US
 	
 	hal_gpio_iniciar();	// llamamos a iniciar gpio antesde que lo hagan los drivers
 	
@@ -70,7 +89,8 @@ int main(void){
 	if (Num_Leds > 0){
 		drv_led_encender(1);
 		//blink_v1(1);			// sesion 1 de practica 2
-		blink_v2(2);			// para la sesion 2 de practica 2
+		//blink_v2(2);			// para la sesion 2 de practica 2
+		blink_v3(3);
 	}
 	
 }

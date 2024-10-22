@@ -2,7 +2,7 @@
 #include "hal_tiempo.h"
 
 static uint32_t TICKS2US;
-#define US2MS 1000 //,jhfkjafhk jh fkjasdhf kjash f
+#define US2MS 1000 
 
 /**
  * Inicializa el reloj y empieza a contar
@@ -10,6 +10,7 @@ static uint32_t TICKS2US;
 void drv_tiempo_iniciar(void) {
     // Iniciar el temporizador llamando a la función del HAL
    TICKS2US = hal_tiempo_iniciar_tick();
+
 
 }
 
@@ -46,7 +47,13 @@ void drv_tiempo_esperar_ms(Tiempo_ms_t ms) {
     }
 		
 }
+void drv_tiempo_periodico_ms(Tiempo_ms_t ms,void(*callback)()){
 
+	uint32_t ticks = ms*US2MS*TICKS2US;
+	hal_tiempo_reloj_periodico_tick(ticks,callback);
+
+
+}
 /**
  * Esperar hasta un determinado tiempo (en ms), devuelve el tiempo actual
  */

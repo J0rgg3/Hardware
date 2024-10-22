@@ -71,12 +71,12 @@ static void(*f_callback)();		//puntero a funcion a llamar cuando salte la RSI (e
  * Timer 1 Interrupt Service Routine
  * llama a la funcion de callbak que se ejecutara en modo irq
  */
-void timer1_ISR (void) __irq {
+void  TIMER1_IRQHandler(void) __irq {
 	 volatile uint32_t dummy;
 	
 	if (NRF_TIMER1->EVENTS_COMPARE[0] == 1)
   {
-			f_callback();	
+			f_callback();
 			NRF_TIMER1->EVENTS_COMPARE[0] = 0;  				// Limpiar el flag de interrupción
 			dummy = NRF_TIMER1->EVENTS_COMPARE[0];			//leerlo para asegurar que se ha borrado
 			dummy;
@@ -96,20 +96,21 @@ void hal_tiempo_reloj_periodico_tick(uint32_t periodo_en_tick, void(*funcion_cal
 	f_callback = funcion_callback;
 	
 	if (periodo_en_tick != 0) { //Si el periodo es cero solo se para el temporizador.
-		NRF_TIMER0->CC[0] = periodo_en_tick   - 1; 		// 16 Ticks (ciclos) por microsegundo.
+		
+		NRF_TIMER1->BITMODE = TIMER_BITMODE_BITMODE_32Bit << TIMER_BITMODE_BITMODE_Pos;
+		
+		NRF_TIMER1->CC[0] = periodo_en_tick  ; 		// 16  Ticks (ciclos) por microsegundo.
 																																				// (periodo_en_ms * HAL_TICKS2US * US2MS) - 1;  
 																																				// resto uno por como incrementa y compara
-		
-	
-		NRF_TIMER0->INTENSET = TIMER_INTENSET_COMPARE0_Enabled << TIMER_INTENSET_COMPARE0_Pos;  	 // Habilitar interrupción cuando coincida con CC[0]
-		NRF_TIMER0->SHORTS = TIMER_SHORTS_COMPARE0_CLEAR_Enabled << TIMER_SHORTS_COMPARE0_CLEAR_Pos; // Reiniciar el temporizador cuando coincida con CC[0]//no monotono
+		NRF_TIMER1->PRESCALER = 0 << TIMER_PRESCALER_PRESCALER_Pos; // Ponerlo en su posicion 
+		NRF_TIMER1->INTENSET = TIMER_INTENSET_COMPARE0_Enabled << TIMER_INTENSET_COMPARE0_Pos;  	 // Habilitar interrupción cuando coincida con CC[0]
+		NRF_TIMER1->SHORTS = TIMER_SHORTS_COMPARE0_CLEAR_Enabled << TIMER_SHORTS_COMPARE0_CLEAR_Pos; // Reiniciar el temporizador cuando coincida con CC[0]//no monotono
 		// Enable Timer1 Interrupt.
 		
 		// 0x20 bit 5 enables vectored IRQs. 
 		// 5 is the number of the interrupt assigned. Number 5 is the Timer 1
-		NVIC_EnableIRQ(TIMER0_IRQn);	
+		NVIC_EnableIRQ(TIMER1_IRQn);	
 		
-		NRF_TIMER1->TASKS_START = 3;  // Reincia los contadores
 		NRF_TIMER1->TASKS_START = 1;  // Empieza la cuenta
 	} else {
 		// Detiene el temporizador
