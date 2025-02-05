@@ -1,0 +1,12 @@
+.\objects\test.o: ..\..\src\test.c
+.\objects\test.o: ..\..\src\test.h
+.\objects\test.o: C:\Programas-Practicas\Simuladores\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\test.o: ..\..\src\rt_evento_t.h
+.\objects\test.o: ..\..\src\drv_leds.h
+.\objects\test.o: ..\..\src\rt_GE.h
+.\objects\test.o: ..\..\src\hal_WDT.h
+.\objects\test.o: ..\..\src\board.h
+.\objects\test.o: ../src_lpc/board_lpc.h
+.\objects\test.o: C:\Programas-Practicas\Simuladores\Keil\ARM\INC\Philips\LPC210x.H
+.\objects\test.o: ../src_lpc/reserva_gpio_lpc2105.h
+.\objects\test.o: ..\..\src\svc_alarma.h

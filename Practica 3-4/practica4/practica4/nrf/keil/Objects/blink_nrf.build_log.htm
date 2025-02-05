@@ -1,0 +1,107 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.26.2.0
+Copyright (C) 2018 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: UZ UZ, UZ, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.26.2.0
+Toolchain Path:  C:\Programas-Practicas\Simuladores\Keil\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 6 (build 750)
+Assembler:       Armasm.exe V5.06 update 6 (build 750)
+Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
+Library Manager: ArmAr.exe V5.06 update 6 (build 750)
+Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+CPU DLL:         SARMCM3.DLL V5.26.2.0
+Dialog DLL:      DCM.DLL V1.17.2.0
+Target DLL:      Segger\JL2CM3.dll V2.99.31.0
+Dialog DLL:      TCM.DLL V1.36.1.0
+ 
+<h2>Project:</h2>
+C:\Users\guest\Downloads\practica4\nrf\keil\blink_nrf.uvprojx
+Project File Date:  11/05/2024
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Programas-Practicas\Simuladores\Keil\ARM\ARMCC\Bin'
+Rebuild Project 'blink_nrf' - Target 'nRF'
+compiling main.c...
+compiling drv_leds.c...
+compiling drv_tiempo.c...
+compiling drv_consumo.c...
+compiling drv_monitor.c...
+compiling rt_fifo.c...
+C:\Users\guest\Downloads\practica4\nrf\keil\rt_fifo.c(10): warning:  #550-D: variable "monitor_overflow"  was set but never used
+  static uint32_t monitor_overflow; // Monitor para el índice de overflow
+rt_fifo.c: 1 warning, 0 errors
+compiling rt_GE.c...
+C:\Users\guest\Downloads\practica4\src\svc_alarma.h(29): warning:  #1-D: last line of file ends without a newline
+  #endif
+C:\Users\guest\Downloads\practica4\src\rt_GE.c(28): warning:  #167-D: argument of type "Tiempo_us_t *" is incompatible with parameter of type "uint32_t *"
+          if (rt_FIFO_extraer(&ID_evento, &auxData, &TS)) {
+C:\Users\guest\Downloads\practica4\src\rt_GE.c(68): error:  #29: expected an expression
+      if (evento == ev_USUARIO) {
+C:\Users\guest\Downloads\practica4\src\rt_GE.c(70): error:  #20: identifier "inactividad_activa" is undefined
+          inactividad_activa = 1;
+C:\Users\guest\Downloads\practica4\src\rt_GE.c(73): error:  #20: identifier "inactividad_activa" is undefined
+          inactividad_activa = 0;
+..\..\src\rt_GE.c: 2 warnings, 3 errors
+compiling svc_alarma.c...
+C:\Users\guest\Downloads\practica4\nrf\keil\svc_alarma.h(29): warning:  #1-D: last line of file ends without a newline
+  #endif
+C:\Users\guest\Downloads\practica4\nrf\keil\svc_alarma.c(23): warning:  #513-D: a value of type "void *" cannot be assigned to an entity of type "void (*)(uint32_t, uint32_t)"
+  		funcion_callback = f_callback;
+C:\Users\guest\Downloads\practica4\nrf\keil\svc_alarma.c(25): warning:  #223-D: function "svc_GE_suscribir" declared implicitly
+  		svc_GE_suscribir(ID_evento,f_callback);
+C:\Users\guest\Downloads\practica4\nrf\keil\svc_alarma.c(26): error:  #29: expected an expression
+  		drv_tiempo_periodico_ms(2000,,ID_evento);
+C:\Users\guest\Downloads\practica4\nrf\keil\svc_alarma.c(38): error:  #136: struct "<unnamed>"  has no field "periodo"
+  							alarmas[index].periodo = retardo_ms;
+C:\Users\guest\Downloads\practica4\nrf\keil\svc_alarma.c(106): error:  #136: struct "<unnamed>"  has no field "periodo"
+  							alarmas[i].retardo_ms = alarmas[i].periodo+drv_tiempo_actual_ms();
+svc_alarma.c: 3 warnings, 3 errors
+compiling hal_consumo_nrf.c...
+C:\Users\guest\Downloads\practica4\nrf\src_nrf\hal_consumo_nrf.c(24): error:  #20: identifier "PIN_WAKEUP" is undefined
+      NRF_GPIO->PIN_CNF[PIN_WAKEUP] = (GPIO_PIN_CNF_SENSE_Low << GPIO_PIN_CNF_SENSE_Pos) |
+..\src_nrf\hal_consumo_nrf.c: 0 warnings, 1 error
+compiling hal_gpio_nrf.c...
+assembling arm_startup_nrf52840.s...
+compiling hal_tiempo_nrf.c...
+compiling system_nrf52.c...
+".\Objects\blink_nrf.axf" - 7 Error(s), 6 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.6.0.pack
+                ARM.CMSIS.5.6.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.3.0
+
+Package Vendor: NordicSemiconductor
+                http://developer.nordicsemi.com/nRF5_SDK/pieces/nRF_DeviceFamilyPack/NordicSemiconductor.nRF_DeviceFamilyPack.8.44.1.pack
+                NordicSemiconductor.nRF_DeviceFamilyPack.8.44.1
+                Nordic Semiconductor nRF ARM devices Device Family Pack with BSD license.
+   * Component: Startup Version: 8.44.1
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_nRF
+  C:\Programas-Practicas\Simuladores\Keil\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include
+  C:\Programas-Practicas\Simuladores\Keil\ARM\PACK\NordicSemiconductor\nRF_DeviceFamilyPack\8.44.1\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.3.0
+
+   * Component: NordicSemiconductor::Device:Startup:8.44.1
+      Source file:   Device\Source\arm\arm_startup_nrf52840.s
+      Source file:   Device\Source\system_nrf52.c
+      Include file:  Device\Include\system_nrf52840.h
+      Include file:  Device\Include\system_nrf.h
+Target not created.
+Build Time Elapsed:  00:00:03
+</pre>
+</body>
+</html>

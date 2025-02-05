@@ -1,0 +1,12 @@
+.\objects\simon.o: ..\..\src\simon.c
+.\objects\simon.o: C:\Programas-Practicas\Simuladores\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\simon.o: ..\..\src\rt_evento_t.h
+.\objects\simon.o: ..\..\src\simon.h
+.\objects\simon.o: ..\..\src\hal_random.h
+.\objects\simon.o: C:\Programas-Practicas\Simuladores\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\simon.o: ..\..\src\svc_alarma.h
+.\objects\simon.o: ..\..\src\drv_leds.h
+.\objects\simon.o: ..\..\src\drv_tiempo.h
+.\objects\simon.o: ..\..\src\rt_GE.h
+.\objects\simon.o: ..\..\src\rt_fifo.h
+.\objects\simon.o: ..\..\src\hal_WDT.h
